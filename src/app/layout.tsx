@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { Inter, Outfit } from "next/font/google";
 import { company } from "@/content/site";
 import "./globals.css";
@@ -62,7 +63,7 @@ const themeScript = `
 })();
 `;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable} h-full`} suppressHydrationWarning>
       <head>
