@@ -57,7 +57,7 @@ export function Footer() {
           <nav aria-label="Footer services">
             <h3 className="text-sm font-semibold">Services</h3>
             <ul className="mt-4 space-y-2.5">
-              {services.map((service) => (
+              {services.items.map((service) => (
                 <li key={service.id}>
                   <a
                     href="#services"

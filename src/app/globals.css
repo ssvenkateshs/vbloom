@@ -1,85 +1,68 @@
 @import "tailwindcss";
 
-/* Class-based dark mode so the header toggle can override the OS setting. */
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
-  --color-brand-50: #eafaf4;
-  --color-brand-100: #cdf3e5;
-  --color-brand-200: #9ee7cd;
-  --color-brand-300: #65d6b0;
-  --color-brand-400: #33bf92;
-  --color-brand-500: #12a37a;
-  --color-brand-600: #0a8364;
-  --color-brand-700: #0a6852;
-  --color-brand-800: #0b5342;
-  --color-brand-900: #0a4537;
+  /* Brand violet: the AI glow. */
+  --color-brand-200: #d4ceff;
+  --color-brand-300: #b4a8ff;
+  --color-brand-400: #8b7cff;
+  --color-brand-500: #6d5efc;
+  --color-brand-600: #5546e0;
+  --color-brand-700: #4033b8;
 
-  --color-accent-400: #8b7cff;
-  --color-accent-500: #6d5efc;
-  --color-accent-600: #5546e0;
+  --color-plasma-400: #d08cff;
+  --color-plasma-500: #c06bff;
 
-  --color-ink-700: #27324a;
-  --color-ink-800: #141d31;
-  --color-ink-900: #0a1122;
-  --color-ink-950: #050a16;
+  /* Bloom teal: growth, the payoff colour. */
+  --color-bloom-300: #65d6b0;
+  --color-bloom-400: #33bf92;
+  --color-bloom-500: #12a37a;
+
+  --color-signal-cyan: #4cc9ff;
+  --color-signal-red: #ff4d6d;
+
+  --color-space-950: #02030a;
+  --color-space-900: #05060f;
+  --color-space-800: #0a0b1e;
+  --color-space-700: #11122b;
+  --color-space-600: #1b1c44;
+
+  --color-page: #02030a;
+  --color-text: #eef0ff;
+  --color-text-muted: #a9adcf;
+  --color-text-faint: #6f7396;
+  --color-card: rgb(255 255 255 / 0.035);
+  --color-card-border: rgb(255 255 255 / 0.09);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-tech: var(--font-orbitron), var(--font-sora), ui-sans-serif, system-ui, sans-serif;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Semantic tokens — one definition per theme, consumed through @theme inline. */
-:root {
-  --page: #ffffff;
-  --page-alt: #f6f9f8;
-  --card: #ffffff;
-  --card-border: #e3e9e7;
-  --text: #0a1122;
-  --text-muted: #525f72;
-  --text-faint: #7b8798;
-  --ring: #12a37a;
-}
-
-:root.dark {
-  --page: #050a16;
-  --page-alt: #0a1122;
-  --card: #0e1729;
-  --card-border: #1e2a42;
-  --text: #eef2f7;
-  --text-muted: #a3b0c2;
-  --text-faint: #7c8a9e;
-  --ring: #33bf92;
-}
-
-@theme inline {
-  --color-page: var(--page);
-  --color-page-alt: var(--page-alt);
-  --color-card: var(--card);
-  --color-card-border: var(--card-border);
-  --color-text: var(--text);
-  --color-text-muted: var(--text-muted);
-  --color-text-faint: var(--text-faint);
-}
-
 @layer base {
   html {
+    color-scheme: dark;
+    background: var(--color-page);
     scroll-behavior: smooth;
-    /* Offset anchor targets so the sticky header never covers a heading. */
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 6rem;
   }
 
   body {
-    background-color: var(--page);
-    color: var(--text);
+    background: var(--color-page);
+    color: var(--color-text);
     -webkit-font-smoothing: antialiased;
   }
 
+  ::selection {
+    background: rgb(139 124 255 / 0.45);
+    color: #fff;
+  }
+
   :focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: 2px solid var(--color-brand-300);
+    outline-offset: 3px;
+    border-radius: 6px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -90,23 +73,48 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
   }
 }
 
-@utility bloom-gradient-text {
-  background-image: linear-gradient(
-    100deg,
-    var(--color-brand-500),
-    var(--color-brand-300) 45%,
-    var(--color-accent-400)
-  );
+@utility text-gradient {
+  background-image: linear-gradient(100deg, #c9c1ff, #b4a8ff 25%, #c06bff 55%, #65d6b0);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
 }
 
-/* Entrance animation, applied once a section scrolls into view. */
+@utility glass {
+  background: rgb(10 11 30 / 0.55);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgb(255 255 255 / 0.09);
+}
+
+/* Deep-space backdrop for the content after the 3D journey. */
+@utility space-bg {
+  background:
+    radial-gradient(60rem 40rem at 88% 4%, rgb(109 94 252 / 0.16), transparent 62%),
+    radial-gradient(48rem 34rem at 4% 46%, rgb(192 107 255 / 0.1), transparent 60%),
+    radial-gradient(44rem 30rem at 70% 98%, rgb(51 191 146 / 0.09), transparent 62%),
+    var(--color-page);
+}
+
+@utility starfield {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.7), transparent 60%),
+    radial-gradient(1px 1px at 68% 32%, rgb(220 214 255 / 0.6), transparent 60%),
+    radial-gradient(1.5px 1.5px at 38% 74%, rgb(255 255 255 / 0.5), transparent 60%),
+    radial-gradient(1px 1px at 84% 82%, rgb(180 168 255 / 0.6), transparent 60%),
+    radial-gradient(1px 1px at 52% 52%, rgb(255 255 255 / 0.35), transparent 60%),
+    radial-gradient(1.5px 1.5px at 24% 92%, rgb(101 214 176 / 0.5), transparent 60%);
+  background-size: 420px 420px;
+}
+
+/* Entrance animation, applied once an element scrolls into view. Only hidden when
+   JavaScript is running, so the page is fully readable if the script never executes. */
 @keyframes rise {
   from {
     opacity: 0;
@@ -118,12 +126,39 @@
   }
 }
 
-/* Only hide pre-animation content when JavaScript is running, so the page is
-   fully readable if the script never executes. */
 .js .reveal {
   opacity: 0;
 }
 
 .js .reveal.is-visible {
-  animation: rise 0.7s var(--ease-out-soft) forwards;
+  animation: rise 0.8s var(--ease-out-soft) forwards;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes flow {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
 }

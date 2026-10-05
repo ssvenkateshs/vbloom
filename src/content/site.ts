@@ -1,14 +1,14 @@
 /**
  * Single source of truth for every piece of copy on the site.
- * Edit this file to change the website's content — the components read from it.
+ * Edit this file to change the website's content; the components read from it.
  */
 
 export const company = {
   name: "VBloom",
   legalName: "VBloom Technologies",
-  tagline: "Technology that helps your business bloom",
+  tagline: "Bloom beyond technology",
   description:
-    "VBloom is an IT consulting and technology services firm. We help organisations modernise their platforms, build software that lasts, and get measurable value from cloud, data and AI.",
+    "VBloom is an AI and digital transformation company. We connect your systems, put AI to work on your data, and engineer the cloud, applications and managed services that keep it all running.",
   // TODO: replace the placeholders below with your registered details.
   email: "hello@vbloom.com",
   phone: "+91 00000 00000",
@@ -21,171 +21,252 @@ export const company = {
 
 export const navLinks = [
   { label: "Services", href: "#services" },
-  { label: "Approach", href: "#approach" },
-  { label: "Why VBloom", href: "#why" },
+  { label: "Industries", href: "#industries" },
+  { label: "Products", href: "#products" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
 export const hero = {
-  eyebrow: "IT consulting & technology services",
-  headlineLead: "Engineering the platforms your",
-  headlineAccent: "business grows on",
+  eyebrow: "VBloom AI · Digital Transformation · Enterprise Solutions",
+  titleLead: "Bloom beyond",
+  titleAccent: "technology.",
   subhead:
-    "From cloud modernisation to custom software, data platforms and managed support — VBloom gives you a senior team that plans carefully, ships steadily, and stays accountable for the outcome.",
-  primaryCta: { label: "Start a conversation", href: "#contact" },
-  secondaryCta: { label: "Explore our services", href: "#services" },
-  highlights: ["Senior-led delivery teams", "Cloud, data & AI expertise", "Fixed-scope or dedicated squads"],
+    "Your enterprise, reimagined with AI. Scroll to leave the old way of working behind and see what your business becomes when everything connects.",
+  primaryCta: { label: "Start your transformation", href: "#contact" },
+  secondaryCta: { label: "Begin the journey" },
+  scrollHint: "Scroll to leave Earth",
+  robotHint: "Move your cursor. It is watching.",
 } as const;
 
-export const services = [
-  {
-    id: "cloud",
-    title: "Cloud & Infrastructure",
-    summary:
-      "Migration, modernisation and cost optimisation across AWS, Azure and GCP — with infrastructure as code and security built in from day one.",
-    points: ["Cloud migration & landing zones", "Kubernetes & containers", "Cost and performance tuning"],
-    icon: "cloud",
-  },
-  {
-    id: "software",
-    title: "Application Development",
-    summary:
-      "Custom web, mobile and API products built by small senior teams, with automated testing and continuous delivery as standard practice.",
-    points: ["Web & mobile applications", "API and integration platforms", "Legacy application rebuilds"],
-    icon: "code",
-  },
-  {
-    id: "data",
-    title: "Data & AI",
-    summary:
-      "Data platforms, analytics and pragmatic AI — pipelines you can trust, dashboards people actually use, and models deployed responsibly.",
-    points: ["Data warehouse & lakehouse", "BI and reporting", "LLM and ML integration"],
-    icon: "spark",
-  },
-  {
-    id: "advisory",
-    title: "Technology Advisory",
-    summary:
-      "Independent assessments, architecture reviews and transformation roadmaps that give leadership a clear, costed path forward.",
-    points: ["Architecture & code audits", "Transformation roadmaps", "Vendor and tooling selection"],
-    icon: "compass",
-  },
-  {
-    id: "managed",
-    title: "Managed Services",
-    summary:
-      "Ongoing support, monitoring and incremental improvement of the systems that run your business, under clearly defined service levels.",
-    points: ["Application support", "DevOps & SRE as a service", "Release and patch management"],
-    icon: "shield",
-  },
-  {
-    id: "talent",
-    title: "Talent Solutions",
-    summary:
-      "Vetted engineers, analysts and architects embedded directly into your teams when you need to scale capacity without the hiring lag.",
-    points: ["Dedicated engineering squads", "Contract-to-hire", "Specialist skill augmentation"],
-    icon: "people",
-  },
-] as const;
+export type JourneyStep = {
+  id: string;
+  step: string;
+  label: string;
+  eyebrow: string;
+  title: string;
+  body: string;
+  tags: readonly string[];
+  accent: string;
+  cta?: { primary: { label: string; href: string }; secondary: { label: string; href: string } };
+};
 
-export const approach = {
-  title: "A delivery approach built on clarity",
+/** The six scenes of the scroll journey, in order (see the 3D scenes in src/world/scenes). */
+export const journey: readonly JourneyStep[] = [
+  {
+    id: "challenge",
+    step: "01",
+    label: "Challenge",
+    eyebrow: "The problem",
+    title: "Every business is drowning in complexity",
+    body: "Emails everywhere, spreadsheets, silos and stalled approvals. Teams are overwhelmed, data is trapped and decisions wait.",
+    tags: ["Manual processes", "Disconnected systems", "Delayed decisions"],
+    accent: "#ff4d6d",
+  },
+  {
+    id: "connect",
+    step: "02",
+    label: "Connect",
+    eyebrow: "The turning point",
+    title: "What if everything worked together?",
+    body: "ERP, CRM, finance, projects and documents stop living on separate planets, and data starts to flow between them.",
+    tags: ["ERP ⇄ CRM", "Documents ⇄ Mobile", "One source of truth"],
+    accent: "#4cc9ff",
+  },
+  {
+    id: "transform",
+    step: "03",
+    label: "Transform",
+    eyebrow: "The intelligence layer",
+    title: "From information to intelligence",
+    body: "An AI core learns from your documents, transactions, workflows, emails and images. One brain for the whole business.",
+    tags: ["Enterprise AI", "Data platforms", "Copilots"],
+    accent: "#8b7cff",
+  },
+  {
+    id: "automate",
+    step: "04",
+    label: "Automate",
+    eyebrow: "AI in action",
+    title: "Intelligence that creates outcomes",
+    body: "AI agents generate the reports, detect the risks, predict the delays and route the approvals before anyone has to ask.",
+    tags: ["Auto-reporting", "Risk detection", "Approval automation"],
+    accent: "#a597ff",
+  },
+  {
+    id: "scale",
+    step: "05",
+    label: "Scale",
+    eyebrow: "Every industry",
+    title: "The future is already here",
+    body: "Construction, manufacturing, healthcare and finance, running on digital twins, predictive analytics and autonomous workflows.",
+    tags: ["Digital twins", "Predictive analytics", "Autonomous workflows"],
+    accent: "#c06bff",
+  },
+  {
+    id: "bloom",
+    step: "06",
+    label: "Bloom",
+    eyebrow: "Welcome to VBloom",
+    title: "From complexity to clarity",
+    body: "From technology to transformation. From data to intelligence. This is what a fully bloomed enterprise looks like.",
+    tags: ["AI", "Data", "Cloud", "Automation", "Applications", "Analytics"],
+    accent: "#33bf92",
+    cta: {
+      primary: { label: "Let's build the future together", href: "#contact" },
+      secondary: { label: "Explore services", href: "#services" },
+    },
+  },
+];
+
+export const services = {
+  eyebrow: "What we do",
+  title: "AI-led services, engineered end to end",
   intro:
-    "Most technology programmes fail on communication long before they fail on code. Our process is deliberately simple and visible at every step.",
-  steps: [
-    {
-      number: "01",
-      title: "Discover",
-      body: "We start with your business goal, not a technology shortlist. Workshops, system reviews and a written summary of what we heard.",
-    },
-    {
-      number: "02",
-      title: "Design",
-      body: "A costed plan: architecture, scope, milestones, risks and the team who will do the work. No surprises after signature.",
-    },
-    {
-      number: "03",
-      title: "Deliver",
-      body: "Short iterations with working software at the end of each one. Demos you attend, metrics you can see, decisions logged.",
-    },
-    {
-      number: "04",
-      title: "Grow",
-      body: "Documentation, handover and training — then ongoing support or the next increment, whichever serves you better.",
-    },
-  ],
-} as const;
-
-export const differentiators = {
-  title: "Why teams choose VBloom",
-  intro: "We are a focused, senior team. That shapes everything about how we work with you.",
+    "AI changes the outcome. Cloud, applications and managed services make it last. We bring both, under one accountable team.",
   items: [
     {
-      title: "Senior people on the actual work",
-      body: "The engineers and architects you meet during scoping are the ones who build it. No handover to a junior bench after the contract is signed.",
+      id: "ai",
+      title: "AI & Intelligent Automation",
+      summary: "AI agents, enterprise copilots and document intelligence that take repetitive work off your teams.",
+      points: ["AI agents & copilots", "Document intelligence", "Process automation"],
+      icon: "spark",
     },
     {
-      title: "Transparent, fixed commitments",
-      body: "Clear scope, clear price, clear timeline. Where scope genuinely has to change, you see the impact and approve it before we proceed.",
+      id: "data",
+      title: "Data & Analytics",
+      summary: "Data platforms, live dashboards and predictive models built on data you can trust.",
+      points: ["Data platforms", "BI & dashboards", "Predictive analytics"],
+      icon: "chart",
     },
     {
-      title: "Vendor-neutral advice",
-      body: "We hold no reseller quotas. Our recommendation is whatever is demonstrably right for your constraints, budget and team.",
+      id: "enterprise",
+      title: "Enterprise Applications",
+      summary: "ERP, CRM and line-of-business systems connected into one flow of information.",
+      points: ["ERP & CRM", "Systems integration", "Workflow platforms"],
+      icon: "nodes",
     },
     {
-      title: "Built to be handed over",
-      body: "Documented, tested, standards-based code with no lock-in to us. Your team can take full ownership whenever you choose.",
+      id: "cloud",
+      title: "Cloud & Infrastructure",
+      summary: "Migration, modernisation and DevOps across AWS, Azure and GCP, with security designed in.",
+      points: ["Cloud migration", "Kubernetes & DevOps", "Cost optimisation"],
+      icon: "cloud",
     },
     {
-      title: "Security and compliance by default",
-      body: "Least-privilege access, secrets management, dependency scanning and audit trails are part of the baseline, not a paid extra.",
+      id: "apps",
+      title: "Application Development",
+      summary: "Web, mobile and API products with automated testing and delivery as standard practice.",
+      points: ["Web & mobile apps", "APIs & integrations", "Legacy modernisation"],
+      icon: "code",
     },
     {
-      title: "Responsive by design",
-      body: "A small team means short escalation paths. You speak to a decision-maker, usually within the same working day.",
+      id: "managed",
+      title: "Managed Services",
+      summary: "Monitoring, support and continuous improvement for the systems that run your business.",
+      points: ["Monitoring & SRE", "Application support", "Continuous improvement"],
+      icon: "shield",
     },
   ],
 } as const;
 
-export const industries = [
-  "Financial services",
-  "Healthcare",
-  "Retail & e-commerce",
-  "Manufacturing",
-  "Logistics",
-  "SaaS & technology",
-  "Education",
-  "Public sector",
-] as const;
+export const product = {
+  eyebrow: "Our AI product",
+  // TODO: confirm the product's name and description. Both come from the design brief.
+  name: "VBloom AI Engine",
+  summary:
+    "One intelligence layer for the whole enterprise. It connects to your ERP, CRM, documents, emails, field operations, teams and mobile apps, and turns the information flowing through them into decisions.",
+  capabilities: ["Documents", "Transactions", "Workflows", "Emails", "Images", "Field operations"],
+  cta: { label: "Request a demo", href: "#contact" },
+} as const;
 
-export const about = {
-  title: "About VBloom",
-  paragraphs: [
-    "VBloom is a newly founded IT consulting and technology services company. We were started by practitioners who spent years inside large delivery organisations and wanted to offer something simpler: a senior team, honest estimates, and software that holds up after the launch.",
-    "We are deliberately small. Every engagement is staffed by people with real production experience in the technology involved, and the person who scopes your work stays accountable for delivering it.",
-    "Being new means we work hard for every client. It also means you get direct access to the founders, flexibility on engagement models, and a partner genuinely invested in making your first project a reference you are happy to give.",
+export const scenarios = {
+  eyebrow: "Industries",
+  title: "Stories, not service lists",
+  intro:
+    "Illustrative scenarios: the same everyday problems, played out without an intelligence layer and with one.",
+  items: [
+    {
+      industry: "Construction",
+      title: "Project delays",
+      without: ["Delayed reporting", "Budget overruns", "No visibility across sites"],
+      with: ["Real-time project intelligence", "Automated reporting", "Predictive delay warnings"],
+    },
+    {
+      industry: "Customer service",
+      title: "1,000 support emails",
+      without: ["Queues pile up", "Slow, inconsistent replies", "Agents buried in triage"],
+      with: ["An AI agent reads and routes every request", "Routine answers handled automatically", "People focus on the hard cases"],
+    },
+    {
+      industry: "Finance",
+      title: "Invoices piling up",
+      without: ["Manual data entry", "Approvals stuck in inboxes", "Month-end surprises"],
+      with: ["AI extracts invoice data", "Approvals automated by policy", "Live insight into spend"],
+    },
   ],
-  engagementModels: [
-    { title: "Project delivery", body: "Fixed scope and price for a defined outcome." },
-    { title: "Dedicated squad", body: "A monthly team that works as part of yours." },
-    { title: "Advisory retainer", body: "Architecture and strategy support on call." },
+  industries: ["Construction", "Manufacturing", "Healthcare", "Finance", "Retail", "Logistics"],
+} as const;
+
+export const impact = {
+  eyebrow: "Real impact",
+  title: "Every engagement follows the same arc",
+  steps: [
+    { label: "Manual process", body: "Where the time and the errors are today." },
+    { label: "Automated workflow", body: "The repetitive work, handled by software." },
+    { label: "AI insight", body: "Patterns and risks surfaced as they happen." },
+    { label: "Business outcome", body: "Faster decisions, lower cost, room to grow." },
   ],
+} as const;
+
+export const innovationLab = {
+  eyebrow: "Innovation lab",
+  title: "Almost like entering the future",
+  intro: "The technologies we put to work. Move your cursor over a card.",
+  items: [
+    { title: "AI Agents", body: "Software that plans, decides and acts across your systems.", icon: "spark" },
+    { title: "Autonomous Workflows", body: "Processes that run themselves and escalate only the exceptions.", icon: "nodes" },
+    { title: "Digital Twins", body: "Live virtual models of sites, plants and assets you can test against.", icon: "cube" },
+    { title: "Computer Vision", body: "Cameras that inspect, count and flag issues in real time.", icon: "eye" },
+    { title: "Enterprise Copilots", body: "Assistants that know your documents, data and processes.", icon: "chat" },
+    { title: "Predictive Analytics", body: "Forecasts that warn you early about delays, demand and risk.", icon: "chart" },
+  ],
+} as const;
+
+export const pillars = {
+  eyebrow: "Why VBloom",
+  title: "We don't implement technology. We engineer business evolution.",
+  intro: "A transformation partner, not a vendor.",
+  items: [
+    { name: "Imagine", subtitle: "Innovation & strategy", body: "We start with the business problem and design where AI can change the outcome." },
+    { name: "Transform", subtitle: "Technology & automation", body: "We connect your systems, build the intelligence layer and automate the work." },
+    { name: "Bloom", subtitle: "Growth & continuous improvement", body: "We stay to measure, tune and grow what we build together." },
+  ],
+  about:
+    "VBloom is a newly founded company. That means direct access to the people who build your solution, flexible ways of working, and a partner invested in making your first project one you are proud to talk about.",
+} as const;
+
+export const finalCta = {
+  title: "Ready to bloom beyond technology?",
+  subhead:
+    "Transform your business with AI, digital innovation, enterprise applications, data intelligence and automation.",
+  cta: { label: "Start your transformation", href: "#contact" },
 } as const;
 
 export const contact = {
-  title: "Let's talk about your project",
+  title: "Start your transformation",
   intro:
-    "Tell us what you are trying to achieve and we will come back within one business day with honest thoughts — whether or not we are the right fit.",
+    "Tell us where the complexity is today. We will come back within one business day with honest thoughts on where AI can help, and where it can't.",
   // Set NEXT_PUBLIC_CONTACT_ENDPOINT to a form backend (Formspree, Basin, your own API)
   // to receive submissions. Without it the form falls back to opening the visitor's email client.
   services: [
+    "AI & Intelligent Automation",
+    "Data & Analytics",
+    "Enterprise Applications",
     "Cloud & Infrastructure",
     "Application Development",
-    "Data & AI",
-    "Technology Advisory",
     "Managed Services",
-    "Talent Solutions",
+    "VBloom AI Engine demo",
     "Something else",
   ],
 } as const;
