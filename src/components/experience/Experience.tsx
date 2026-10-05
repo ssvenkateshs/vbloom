@@ -184,6 +184,7 @@ export function Experience() {
       id="experience"
       ref={sectionRef}
       aria-label="The VBloom transformation journey"
+      data-scroll-total={layout.total}
       className="relative"
       style={{ height: `calc(${layout.total} * 100svh + 100svh)` }}
     >

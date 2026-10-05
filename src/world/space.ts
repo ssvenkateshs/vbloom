@@ -110,9 +110,9 @@ const PLANET_FRAG = /* glsl */ `
     col = mix(col, vec3(0.06, 0.34, 0.4), smoothstep(0.62, 0.9, fbm(vObjN * 3.2 + 7.0)) * 0.55);
     col = mix(col, vec3(0.85, 0.5, 0.95), smoothstep(0.86, 0.98, bands) * 0.35);
     float ndl = max(dot(n, uSun), 0.0);
-    col *= 0.05 + ndl * 1.15;
+    col *= 0.03 + ndl * 0.55;
     float fres = pow(1.0 - max(dot(n, v), 0.0), 3.0);
-    col += vec3(0.55, 0.38, 1.0) * fres * 0.85;
+    col += vec3(0.55, 0.38, 1.0) * fres * 0.6;
     gl_FragColor = vec4(col, 1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
@@ -139,7 +139,7 @@ const RING_FRAG = /* glsl */ `
     float gap = smoothstep(0.42, 0.45, u) * (1.0 - smoothstep(0.5, 0.53, u));
     float alpha = bands * smoothstep(0.0, 0.08, u) * (1.0 - smoothstep(0.86, 1.0, u)) * (1.0 - gap * 0.85);
     vec3 col = mix(vec3(0.55, 0.45, 1.0), vec3(0.9, 0.85, 1.0), bands) * 0.8;
-    gl_FragColor = vec4(col, alpha * 0.55);
+    gl_FragColor = vec4(col * 0.6, alpha * 0.32);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
   }
@@ -286,7 +286,7 @@ export function buildSpace(kit: Kit): Space {
 
   // --- the destination gas giant + rings ------------------------------------------
   const planet = new THREE.Group();
-  planet.position.set(-330, -10, -760);
+  planet.position.set(-520, -90, -1250);
   const planetRadius = 200;
   const planetLight = new THREE.Vector3(0.55, 0.42, 0.72).normalize();
   const planetMat = new THREE.ShaderMaterial({
@@ -336,7 +336,7 @@ export function buildSpace(kit: Kit): Space {
       uniforms: { uSun: { value: planetLight }, uCam: { value: new THREE.Vector3() }, uTime: kit.time },
     }),
   );
-  moon.position.set(160, 150, -620);
+  moon.position.set(260, 190, -980);
   group.add(moon);
 
   // --- warp streaks (built once the camera path is known) ----------------------------

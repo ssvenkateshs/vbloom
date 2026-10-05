@@ -56,7 +56,7 @@ export function buildIsland(kit: Kit, opts: { radius?: number; rim?: number; see
     vertexShader: TOP_VERT,
     fragmentShader: TOP_FRAG,
     uniforms: {
-      uColor: { value: hdr(rim, 1.6) },
+      uColor: { value: hdr(rim, 1.05) },
       uRadius: { value: radius },
       uTime: kit.time,
       uPulse: { value: 1 },
@@ -70,9 +70,9 @@ export function buildIsland(kit: Kit, opts: { radius?: number; rim?: number; see
   grid.position.y = 0.006;
   group.add(grid);
 
-  const rimMat = new THREE.MeshBasicMaterial({ color: hdr(rim, 3.2) });
+  const rimMat = new THREE.MeshBasicMaterial({ color: hdr(rim, 2.3) });
   kit.own(rimMat);
-  const rimRing = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.06, 8, 160), rimMat);
+  const rimRing = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.04, 8, 160), rimMat);
   rimRing.rotation.x = Math.PI / 2;
   group.add(rimRing);
   const outerMat = new THREE.MeshBasicMaterial({ color: hdr(rim, 1.4), transparent: true, opacity: 0.7 });
@@ -117,7 +117,7 @@ export function buildIsland(kit: Kit, opts: { radius?: number; rim?: number; see
     debris.push({ mesh: rock, base, speed: 0.3 + random() * 0.6, phase: random() * 10 });
   }
 
-  const underGlow = kit.halo(rim, radius * 3.2, 0.3);
+  const underGlow = kit.halo(rim, radius * 3.2, 0.22);
   underGlow.position.y = -3;
   group.add(underGlow);
 
@@ -125,9 +125,9 @@ export function buildIsland(kit: Kit, opts: { radius?: number; rim?: number; see
     group,
     stage,
     setRim(hex: number) {
-      rimMat.color.copy(hdr(hex, 3.2));
+      rimMat.color.copy(hdr(hex, 2.3));
       outerMat.color.copy(hdr(hex, 1.4));
-      gridMat.uniforms.uColor.value.copy(hdr(hex, 1.6));
+      gridMat.uniforms.uColor.value.copy(hdr(hex, 1.05));
       underGlow.material.color.set(hex);
     },
     update(t: number) {

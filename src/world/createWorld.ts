@@ -74,7 +74,20 @@ function buildPath(aspect: number, scenes: SceneHandle[]): Path {
     const next = ISLANDS[i + 1];
     const side = i % 2 === 0 ? 1 : -1;
     add(c.clone().add(V(side * 5 * f, 14, 30 * f)), c.clone().add(V(0, 1.5, 0)), 46);
-    add(c.clone().add(scene.hold.clone().multiply(V(f, 1, f))), c.clone().add(scene.focus), 42);
+    // Hold pose, slid sideways (or down on phones) so the scene composes beside the
+    // copy panel rather than underneath it.
+    const holdPos = c.clone().add(scene.hold.clone().multiply(V(f, 1, f)));
+    const holdTarget = c.clone().add(scene.focus);
+    const forward = holdTarget.clone().sub(holdPos);
+    const distance = forward.length();
+    forward.normalize();
+    const rightDir = new THREE.Vector3().crossVectors(forward, V(0, 1, 0)).normalize();
+    const upDir = new THREE.Vector3().crossVectors(rightDir, forward).normalize();
+    const halfHeight = distance * Math.tan(THREE.MathUtils.degToRad((narrow ? 51 : 42) / 2));
+    const offset = narrow
+      ? upDir.multiplyScalar(-0.42 * halfHeight)
+      : rightDir.multiplyScalar(-0.36 * halfHeight * aspect);
+    add(holdPos.add(offset), holdTarget.add(offset), 42);
     if (next) {
       add(c.clone().add(V(-side * 5 * f, 9, 10 * f)), c.clone().lerp(next, 0.4).add(V(0, 4, 0)), 48);
       add(c.clone().lerp(next, 0.5).add(V(0, 22, 14)), next.clone().add(V(0, 2, 0)), 52);
