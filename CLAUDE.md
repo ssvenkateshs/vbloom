@@ -2,9 +2,9 @@
 
 # VBloom website
 
-Marketing site for **VBloom**, an IT consulting and technology services company.
-Single page, no backend, no database. Next.js 16 (App Router) + TypeScript +
-Tailwind CSS 4.
+Marketing site for **VBloom**, an AI and digital transformation company. One
+page: an immersive scroll-driven 3D journey, followed by conventional sections.
+Next.js 16 (App Router) + TypeScript + Tailwind CSS 4 + Three.js. No backend.
 
 The conventions you must follow are in `AGENTS.md`, imported above. This file
 describes how the codebase is put together.
@@ -13,88 +13,82 @@ describes how the codebase is put together.
 
 ```bash
 npm run dev        # dev server on :3000
-npm run lint       # ESLint
+npm run lint       # ESLint (ignores the vendored DESIGN SKILLS folder)
 npm run typecheck  # tsc --noEmit
 npm run build      # production build
 npm run format     # Prettier, with Tailwind class sorting
 ```
 
-Run `lint`, `typecheck` and `build` before pushing. CI runs the same three, in
-that order, on a clean checkout.
-
 ## Layout
 
 ```
 src/
-  content/site.ts      every word of copy on the site
-  app/
-    layout.tsx         metadata, fonts, pre-paint theme script
-    page.tsx           composes the sections, Organization JSON-LD
-    globals.css        design tokens, light/dark, reveal animation
-    icon.svg           favicon
-  components/          one file per section, plus Icons/Reveal/Section/ThemeToggle
+  content/site.ts            every word of copy, including the six journey steps
+  app/                        layout (fonts, metadata), page composition, tokens
+  components/
+    experience/Experience.tsx sticky stage, hero copy, scene panels, timeline rail
+    sections/                 Services, Product, Scenarios, Impact, InnovationLab, Pillars, FinalCta
+    Header, Contact, Footer, Icons, Reveal, Section
+  world/                      the 3D world (no React)
+    createWorld.ts            renderer, studio env, bloom, camera spline, loop
+    layout.ts                 scroll pacing, shared with the DOM (no three.js)
+    robot.ts                  rigged procedural robot: IK arms, LED eyes
+    hero.ts                   opening shot: robot, wordmark, halo, Earth orbit
+    space.ts island.ts kit.ts wordmark.ts
+    scenes/                   one builder per journey scene
+DESIGN SKILLS/                the supplied lets-scroll skill (reference only)
+UI Design.docx                the supplied design brief
 ```
 
 ## How it fits together
 
-**Content and components are separated.** `src/content/site.ts` exports plain
-objects for the company details, nav, hero, services, approach, differentiators,
-industries, about and contact options. Components import from it and render.
-A wording change should never require touching a component.
+**The journey follows the lets-scroll model** from `DESIGN SKILLS/`: an interleaved
+chain of *dive* segments (camera flies into a scene and settles) and *connector*
+segments (pulls up, hops to the next), paced in viewport heights with the skill's
+`lingerEase` remap so the camera dwells while the copy peaks. The difference from
+the skill: scenes are rendered live in Three.js instead of pre-rendered AI video,
+so there are no seams to match and each scene's animation autoplays on arrival.
 
-**Design tokens, not hex values.** `globals.css` defines the brand ramp
-(`--color-brand-*`), a violet accent (`--color-accent-*`), and semantic colours
-(`--page`, `--card`, `--text`, `--card-border`, …) that are redefined under
-`:root.dark` and exposed through `@theme inline`. Use the utilities these
-generate — `bg-brand-600`, `text-text-muted`, `border-card-border` — so both
-themes stay correct automatically.
+**Scroll drives the camera, time drives the scenes.** `layout.ts` maps scroll to a
+parameter on two Catmull-Rom splines (position and target). Each scene's
+`update(dt, t, intro)` receives an `intro` value that runs 0 → 1 over ~3 s when
+the camera arrives, and resets once the camera is far away.
 
-**Dark mode is class-based.** An inline script in `layout.tsx` reads
-`localStorage` (falling back to `prefers-color-scheme`) and sets `dark` on
-`<html>` before first paint, so there is no flash. `ThemeToggle` flips that
-class and persists the choice; it holds no React state, and its icons are
-chosen in CSS via the `dark:` variant, so it cannot disagree with the rendered
-theme after hydration. Never gate styles on `prefers-color-scheme` directly.
+**Copy is DOM, the world is decoration.** All story text is real HTML over an
+`aria-hidden` canvas. Panel opacity is written straight to the DOM on scroll; React
+re-renders only when the active scene changes.
 
-**Reveal animations degrade safely.** `Reveal` adds `is-visible` to its node via
-IntersectionObserver. The hiding rule is `.js .reveal { opacity: 0 }`, and the
-`js` class comes from the same inline script — so if JavaScript never runs, the
-content is plain and visible rather than stuck at zero opacity. `Reveal` toggles
-the class on the DOM node directly rather than through state, which also keeps
-the ~30 instances on the page from re-rendering.
+**Hold poses dodge the copy.** In `createWorld.ts` each scene's hold pose slides the
+camera sideways (or down on phones) so the scene composes beside its panel.
 
-**The contact form has no backend.** It POSTs `FormData` to
-`NEXT_PUBLIC_CONTACT_ENDPOINT` when that is set, and otherwise builds a
-`mailto:` link so the form still works on a fresh deploy.
+**Rendering budget:** dark studio PMREM environment (glossy black needs black
+reflections), bloom above ~1.0 only, adaptive quality (pixel ratio, then bloom
+off), rendering paused off-screen or when the tab is hidden, and only nearby
+scenes are visible. Hero ≈ 100 draw calls.
+
+## Debugging the world
+
+Open `/?world-debug` and use `window.__vbloomWorld`:
+`stats()`, `debugView([x,y,z], [tx,ty,tz], fov)` to pin the camera,
+`debugObject(name)` and `debugSetVisible(name, bool)`. `public/robot-portrait.png`
+was rendered this way (wordmark hidden) and doubles as the no-WebGL poster.
 
 ## Gotchas
 
-- **Do not use Next's generated route types** (`LayoutProps<"/">`,
-  `PageProps<…>`). They are emitted into `.next/types/` by `next build` and
-  `next dev`, so they do not exist on a clean checkout — and CI typechecks
-  before it builds. Type props explicitly instead. This broke the first CI run.
-- **A local `npm run typecheck` can pass on a dirty tree** for the same reason.
-  To reproduce CI honestly, `rm -rf .next` first.
+- **Don't use Next's generated route types** (`LayoutProps`, `PageProps`); they
+  don't exist on a clean checkout and CI typechecks before building.
+- **`rm -rf .next` before a local typecheck** to reproduce CI honestly.
+- **Three.js `Clock` is deprecated** (r183+); the world uses `Timer` but keeps its
+  own clamped elapsed time, because rAF timestamps can produce a negative first delta.
+- **A shader's `vUv.x` along a `TubeGeometry` is the path parameter**; the
+  draw-in effect (`kit.tube`) relies on it.
+- **Headless verification** needs Chromium with
+  `--use-angle=swiftshader --enable-unsafe-swiftshader`. Software rendering is slow,
+  so scene intros take ~25 s of wall time to finish in screenshots.
 - **The `nextjs-agent-rules` block in `AGENTS.md` is managed by `next dev`.**
-  Leave it; deleting it only recreates an uncommitted change. `next dev` leaves
-  `CLAUDE.md` alone while `AGENTS.md` hosts that block.
-- **`npm start` will not work if `output: "export"` is set** in
-  `next.config.ts`. That line is intentionally absent; add it only for a static
-  export, and do not commit it as the default.
+- **Don't commit `output: "export"`** in `next.config.ts`; it breaks `npm start`.
 
-## Content rules
+## Open items
 
-Do not add client logos, testimonials, case studies, named clients, headcounts
-or years-in-business unless a maintainer supplies them. VBloom is newly
-registered; invented social proof is not acceptable. The About section states
-plainly that the company is new.
-
-Placeholder values still in `site.ts` — `email`, `phone`, `location`,
-`legalName`, `social.linkedin` — need replacing before launch.
-
-## Deploying
-
-No server-side code, so anything works: Vercel or Netlify by importing the repo,
-or a static export (`output: "export"`) published to GitHub Pages or S3. Set
-`NEXT_PUBLIC_SITE_URL` to the real domain so canonical and Open Graph metadata
-are right.
+Placeholders in `site.ts`: `email`, `phone`, `location`, `legalName`,
+`social.linkedin`, and the product name/description (taken from the brief).

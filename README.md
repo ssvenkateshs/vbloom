@@ -1,7 +1,9 @@
 # VBloom website
 
-Marketing site for **VBloom**, an IT consulting and technology services company.
-Single-page site built with Next.js 16 (App Router), TypeScript and Tailwind CSS 4.
+Marketing site for **VBloom**, an AI and digital transformation company: an
+immersive scroll-driven 3D journey (Three.js) followed by the business sections.
+Built with Next.js 16 (App Router), TypeScript, Tailwind CSS 4 and Three.js.
+See `CLAUDE.md` for how the 3D world is put together.
 
 ---
 
@@ -70,19 +72,22 @@ In `src/content/site.ts`, the `company` object still holds stand-in values:
 - `legalName` — set this to your registered entity name
 - `social.linkedin` — your actual company page
 
-There are deliberately **no client logos or testimonials** on the site. Add them
+The AI product's name and description come from the design brief (`product` in
+`site.ts`) and need confirming.
+
+There are deliberately **no client logos, testimonials or metrics** on the site. Add them
 to `site.ts` and render a section once you have real ones you are permitted to
 quote — invented social proof is the fastest way to lose a prospect's trust.
 
 ### Layout and design
 
-- Components live in `src/components/`, one per section.
-- Colours, fonts and spacing tokens are defined in `src/app/globals.css`. The
-  brand palette is `--color-brand-*` (teal/green) with `--color-accent-*`
-  (violet) for gradient highlights.
-- Light and dark themes are both supported. The header toggle sets a `dark`
-  class on `<html>` and stores the choice in `localStorage`; an inline script in
-  `src/app/layout.tsx` applies it before first paint so there is no flash.
+- The 3D journey lives in `src/world/` (one file per scene in `src/world/scenes/`);
+  the DOM layer is `src/components/experience/Experience.tsx`.
+- Sections after the journey are in `src/components/sections/`.
+- The site is dark-only. Tokens (violet brand, plasma, bloom teal, space blacks)
+  are in `src/app/globals.css`.
+- Visitors without WebGL, or with reduced motion, get a readable fallback: the same
+  copy and timeline, with a still render of the robot or cuts instead of flight.
 
 ---
 

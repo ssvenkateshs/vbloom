@@ -1,11 +1,14 @@
-import { About } from "@/components/About";
-import { Approach } from "@/components/Approach";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
-import { Services } from "@/components/Services";
-import { WhyUs } from "@/components/WhyUs";
+import { Experience } from "@/components/experience/Experience";
+import { FinalCta } from "@/components/sections/FinalCta";
+import { Impact } from "@/components/sections/Impact";
+import { InnovationLab } from "@/components/sections/InnovationLab";
+import { Pillars } from "@/components/sections/Pillars";
+import { Product } from "@/components/sections/Product";
+import { Scenarios } from "@/components/sections/Scenarios";
+import { Services } from "@/components/sections/Services";
 import { company } from "@/content/site";
 
 /** Organisation schema so search engines can read the company details. */
@@ -26,18 +29,27 @@ export default function Home() {
     <>
       <a
         href="#services"
-        className="focus:bg-brand-600 sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        className="focus:text-space-950 sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold"
       >
-        Skip to content
+        Skip the journey
       </a>
       <Header />
       <main className="flex-1">
-        <Hero />
-        <Services />
-        <Approach />
-        <WhyUs />
-        <About />
-        <Contact />
+        {/* Layer 2 of the brief: the transformation story, with the site floating over it. */}
+        <Experience />
+        <div className="space-bg relative">
+          <div aria-hidden="true" className="starfield pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative">
+            <Services />
+            <Product />
+            <Scenarios />
+            <Impact />
+            <InnovationLab />
+            <Pillars />
+            <FinalCta />
+            <Contact />
+          </div>
+        </div>
       </main>
       <Footer />
       <script
