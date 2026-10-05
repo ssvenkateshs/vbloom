@@ -1,7 +1,12 @@
 import * as THREE from "three";
 import { Kit, PALETTE } from "../kit";
 
-function canvasSprite(kit: Kit, size: number, draw: (ctx: CanvasRenderingContext2D, s: number) => void, scale: number) {
+function canvasSprite(
+  kit: Kit,
+  size: number,
+  draw: (ctx: CanvasRenderingContext2D, s: number) => void,
+  scale: number,
+) {
   const canvas = document.createElement("canvas");
   canvas.width = canvas.height = size;
   draw(canvas.getContext("2d")!, size);
@@ -116,7 +121,10 @@ export function buildDrone(kit: Kit, eye: number = PALETTE.violet) {
     arm.position.set(x / 2, 0, z / 2);
     arm.lookAt(x, 0, z);
     drone.add(arm);
-    const rotor = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.01, 18), kit.glow(eye, 1.4, { opacity: 0.5 }));
+    const rotor = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.13, 0.13, 0.01, 18),
+      kit.glow(eye, 1.4, { opacity: 0.5 }),
+    );
     rotor.position.set(x, 0.05, z);
     drone.add(rotor);
     rotors.push(rotor);

@@ -11,16 +11,18 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # VBloom site conventions
 
 - **All site copy lives in `src/content/site.ts`.** Change wording there, not in
-  components. Components in `src/components/` import from it.
-- Design tokens (brand colours, semantic light/dark colours, fonts) are defined
-  in `src/app/globals.css`. Use the Tailwind utilities they generate
-  (`bg-brand-600`, `text-text-muted`, `border-card-border`, …) rather than
-  hard-coded hex values, so both themes stay correct.
-- Dark mode is class-based (`dark` on `<html>`), applied before paint by the
-  inline script in `src/app/layout.tsx`. Never gate styles on
-  `prefers-color-scheme` directly — use the `dark:` variant.
+  components, and not inside the 3D scenes (their in-world labels are the only
+  exception and come from the design brief).
+- The site is **dark-only** (neon night). Design tokens live in
+  `src/app/globals.css`; use the generated utilities (`bg-brand-500`,
+  `text-text-muted`, `bg-space-950`, `text-bloom-300`, …) rather than hex values.
+- `src/world/` is framework-agnostic Three.js. Keep React out of it; the
+  `Experience` component is the only bridge. `src/world/layout.ts` must stay free
+  of three.js so the copy panels and timeline work without WebGL.
+- Every 3D effect needs a quiet path: honour `reducedMotion` (cut, don't fly),
+  keep the no-WebGL fallback readable, and never block content on the canvas.
 - Do not add client logos, testimonials, case studies, named clients, employee
-  counts, years in business, or any other factual claim about the company unless
-  a maintainer supplied it. VBloom is newly registered; invented social proof is
-  not acceptable.
+  counts, years in business, metrics or any other factual claim about the company
+  unless a maintainer supplied it. VBloom is newly registered; invented social
+  proof is not acceptable. Scenarios must stay labelled as illustrative.
 - Before pushing: `npm run lint`, `npm run typecheck`, `npm run build`.

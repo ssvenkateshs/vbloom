@@ -27,7 +27,10 @@ export const buildConnect: SceneBuilder = ({ kit, island, reducedMotion }) => {
     const a = (i / SYSTEMS.length) * Math.PI * 2 + Math.PI / 6;
     const height = 1.6 + (i % 3) * 0.6;
     const pos = new THREE.Vector3(Math.cos(a) * 5.4, height, Math.sin(a) * 4.6 - 0.4);
-    const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.34, height - 0.7, 16), kit.structure());
+    const pedestal = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.16, 0.34, height - 0.7, 16),
+      kit.structure(),
+    );
     pedestal.position.set(pos.x, (height - 0.7) / 2, pos.z);
     stage.add(pedestal);
     const planet = new THREE.Mesh(new THREE.SphereGeometry(0.66, 32, 24), kit.shell("low"));
@@ -51,7 +54,9 @@ export const buildConnect: SceneBuilder = ({ kit, island, reducedMotion }) => {
   stage.add(hub);
   const hubShell = new THREE.Mesh(
     new THREE.OctahedronGeometry(1.05, 0),
-    kit.own(new THREE.MeshBasicMaterial({ color: 0xb4a8ff, wireframe: true, transparent: true, opacity: 0.35 })),
+    kit.own(
+      new THREE.MeshBasicMaterial({ color: 0xb4a8ff, wireframe: true, transparent: true, opacity: 0.35 }),
+    ),
   );
   hubShell.position.copy(hubPos);
   stage.add(hubShell);
@@ -65,13 +70,27 @@ export const buildConnect: SceneBuilder = ({ kit, island, reducedMotion }) => {
   nodes.forEach((node, i) => {
     const next = nodes[(i + 1) % nodes.length];
     const curve = arcBetween(node.pos, next.pos, 1.1);
-    const tube = kit.tube(curve, { color: SYSTEMS[i].color, colorEnd: SYSTEMS[(i + 1) % nodes.length].color, radius: 0.03, dash: 7, speed: 0.5, progress: 0 });
+    const tube = kit.tube(curve, {
+      color: SYSTEMS[i].color,
+      colorEnd: SYSTEMS[(i + 1) % nodes.length].color,
+      radius: 0.03,
+      dash: 7,
+      speed: 0.5,
+      progress: 0,
+    });
     stage.add(tube);
     links.push({ tube, curve, start: i * 0.07 });
   });
   nodes.forEach((node, i) => {
     const curve = arcBetween(node.pos, hubPos, 0.9);
-    const tube = kit.tube(curve, { color: SYSTEMS[i].color, colorEnd: PALETTE.violet, radius: 0.026, dash: 6, speed: 0.8, progress: 0 });
+    const tube = kit.tube(curve, {
+      color: SYSTEMS[i].color,
+      colorEnd: PALETTE.violet,
+      radius: 0.026,
+      dash: 6,
+      speed: 0.8,
+      progress: 0,
+    });
     stage.add(tube);
     links.push({ tube, curve, start: 0.45 + i * 0.05 });
   });

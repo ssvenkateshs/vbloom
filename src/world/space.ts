@@ -227,13 +227,18 @@ export function buildSpace(kit: Kit): Space {
   // --- stars -----------------------------------------------------------------
   const starCount = kit.lowPower ? 2200 : 4800;
   const stars = kit.particles(starCount, { twinkle: 0.35 });
-  const tints = [0xffffff, 0xdfe6ff, 0xc9d4ff, 0xd9c9ff, PALETTE.violet, PALETTE.cyan].map((c) => new THREE.Color(c));
+  const tints = [0xffffff, 0xdfe6ff, 0xc9d4ff, 0xd9c9ff, PALETTE.violet, PALETTE.cyan].map(
+    (c) => new THREE.Color(c),
+  );
   for (let i = 0; i < starCount; i++) {
     const u = random() * 2 - 1;
     const theta = random() * Math.PI * 2;
     const r = 650 + random() * 650;
     const s = Math.sqrt(1 - u * u);
-    stars.positions.set([center.x + r * s * Math.cos(theta), center.y + r * u, center.z + r * s * Math.sin(theta)], i * 3);
+    stars.positions.set(
+      [center.x + r * s * Math.cos(theta), center.y + r * u, center.z + r * s * Math.sin(theta)],
+      i * 3,
+    );
     const tint = tints[random() < 0.82 ? Math.floor(random() * 4) : 4 + Math.floor(random() * 2)];
     const bright = 0.5 + random() * random() * 2.2;
     stars.colors.set([tint.r * bright, tint.g * bright, tint.b * bright], i * 3);
@@ -360,7 +365,10 @@ export function buildSpace(kit: Kit): Space {
       const radius = 2.5 + r() * 22;
       p.addScaledVector(side, Math.cos(angle) * radius).addScaledVector(up, Math.sin(angle) * radius);
       const len = 3 + r() * 14;
-      positions.set([p.x, p.y, p.z, p.x + tangent.x * len, p.y + tangent.y * len, p.z + tangent.z * len], i * 6);
+      positions.set(
+        [p.x, p.y, p.z, p.x + tangent.x * len, p.y + tangent.y * len, p.z + tangent.z * len],
+        i * 6,
+      );
       ts.set([0, 1], i * 2);
     }
     const geometry = new THREE.BufferGeometry();
@@ -371,7 +379,10 @@ export function buildSpace(kit: Kit): Space {
       new THREE.ShaderMaterial({
         vertexShader: WARP_VERT,
         fragmentShader: WARP_FRAG,
-        uniforms: { uOpacity: { value: 0 }, uColor: { value: new THREE.Color(0xcfe0ff).multiplyScalar(2.2) } },
+        uniforms: {
+          uOpacity: { value: 0 },
+          uColor: { value: new THREE.Color(0xcfe0ff).multiplyScalar(2.2) },
+        },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,

@@ -35,7 +35,10 @@ export function buildHero(kit: Kit) {
   const platform = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.08, 0.12, 64), kit.structure());
   platform.position.y = -0.06;
   group.add(platform);
-  const platformRing = new THREE.Mesh(new THREE.TorusGeometry(1.0, 0.014, 8, 96), kit.glow(PALETTE.violet, 3));
+  const platformRing = new THREE.Mesh(
+    new THREE.TorusGeometry(1.0, 0.014, 8, 96),
+    kit.glow(PALETTE.violet, 3),
+  );
   platformRing.rotation.x = Math.PI / 2;
   platformRing.position.y = 0.005;
   group.add(platformRing);
@@ -78,6 +81,7 @@ export function buildHero(kit: Kit) {
 
   const wordmark = buildWordmark(kit, "VBLOOM", 5.8, 0xffffff, 1.12);
   wordmark.position.set(0, 1.86, -2.7);
+  wordmark.name = "hero-wordmark";
   group.add(wordmark);
 
   const grid = buildBackdropGrid(34, 18, new THREE.Vector2(0, 1.6));

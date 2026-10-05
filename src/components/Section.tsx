@@ -2,30 +2,35 @@ import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 
 type SectionProps = {
-  id: string;
+  id?: string;
   eyebrow?: string;
   title: string;
   intro?: string;
   children: ReactNode;
-  tinted?: boolean;
   /** Centre the heading block instead of left-aligning it. */
   centered?: boolean;
+  className?: string;
 };
 
-export function Section({ id, eyebrow, title, intro, children, tinted, centered }: SectionProps) {
+export function Section({ id, eyebrow, title, intro, children, centered, className = "" }: SectionProps) {
   return (
-    <section id={id} className={tinted ? "bg-page-alt" : undefined}>
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-        <Reveal className={centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
+    <section id={id} className={`relative ${className}`}>
+      <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
+        <Reveal className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
           {eyebrow && (
-            <p className="text-brand-600 dark:text-brand-400 text-xs font-semibold tracking-[0.14em] uppercase">
+            <p
+              className={`font-tech text-brand-300 flex items-center gap-3 text-[0.68rem] tracking-[0.3em] uppercase ${centered ? "justify-center" : ""}`}
+            >
+              <span className="bg-brand-400 h-px w-8" />
               {eyebrow}
             </p>
           )}
-          <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h2>
-          {intro && <p className="text-text-muted mt-4 text-lg leading-relaxed">{intro}</p>}
+          <h2 className="font-display mt-5 text-3xl leading-[1.1] font-semibold tracking-tight text-white sm:text-5xl">
+            {title}
+          </h2>
+          {intro && <p className="text-text-muted mt-5 text-lg leading-relaxed">{intro}</p>}
         </Reveal>
-        <div className="mt-14">{children}</div>
+        <div className="mt-16">{children}</div>
       </div>
     </section>
   );

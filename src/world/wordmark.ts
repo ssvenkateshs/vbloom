@@ -10,7 +10,10 @@ const GAP = 0.24;
 /** Evenly sample a straight run so the spline hugs it instead of bowing. */
 function line(a: [number, number], b: [number, number], step = 0.05): THREE.Vector2[] {
   const n = Math.max(2, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / step));
-  return Array.from({ length: n + 1 }, (_, i) => new THREE.Vector2(a[0] + ((b[0] - a[0]) * i) / n, a[1] + ((b[1] - a[1]) * i) / n));
+  return Array.from(
+    { length: n + 1 },
+    (_, i) => new THREE.Vector2(a[0] + ((b[0] - a[0]) * i) / n, a[1] + ((b[1] - a[1]) * i) / n),
+  );
 }
 
 function arc(cx: number, cy: number, r: number, from: number, to: number, step = 0.05): THREE.Vector2[] {
@@ -60,7 +63,16 @@ const GLYPHS: Record<string, Stroke[]> = {
       closed: true,
     },
   ],
-  M: [{ points: join(line([0, 0], [0, 1]), line([0, 1], [W / 2, 0.36]), line([W / 2, 0.36], [W, 1]), line([W, 1], [W, 0])) }],
+  M: [
+    {
+      points: join(
+        line([0, 0], [0, 1]),
+        line([0, 1], [W / 2, 0.36]),
+        line([W / 2, 0.36], [W, 1]),
+        line([W, 1], [W, 0]),
+      ),
+    },
+  ],
 };
 
 /**

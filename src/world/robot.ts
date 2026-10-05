@@ -169,7 +169,14 @@ export class Robot {
     const ring = kit.glow(accent, 3.2);
     const strip = kit.glow(accent, 2.2);
 
-    const mesh = (geo: THREE.BufferGeometry, mat: THREE.Material, parent: THREE.Object3D, x = 0, y = 0, z = 0) => {
+    const mesh = (
+      geo: THREE.BufferGeometry,
+      mat: THREE.Material,
+      parent: THREE.Object3D,
+      x = 0,
+      y = 0,
+      z = 0,
+    ) => {
       const m = new THREE.Mesh(geo, mat);
       m.position.set(x, y, z);
       parent.add(m);
@@ -281,7 +288,14 @@ export class Robot {
     const visor = mesh(visorGeo, kit.visor(), this.head, 0, 0.1, 0);
     visor.scale.set(1, 1.16, 1.04);
     for (const side of [-1, 1]) {
-      const pod = mesh(new THREE.CylinderGeometry(0.046, 0.05, 0.04, seg), shell, this.head, side * 0.152, 0.1, -0.01);
+      const pod = mesh(
+        new THREE.CylinderGeometry(0.046, 0.05, 0.04, seg),
+        shell,
+        this.head,
+        side * 0.152,
+        0.1,
+        -0.01,
+      );
       pod.rotation.z = Math.PI / 2;
       const podRing = mesh(torus(0.036, 0.0045), ring, this.head, side * 0.174, 0.1, -0.01);
       podRing.rotation.y = Math.PI / 2;
@@ -307,7 +321,11 @@ export class Robot {
       arm.shoulder.position.set(side * 0.345, 0.52, 0);
       this.spine.add(arm.shoulder);
       mesh(ball(0.096), joint, arm.shoulder);
-      const cap = mesh(new THREE.SphereGeometry(0.12, seg, 16, 0, Math.PI * 2, 0, Math.PI / 2), shell, arm.shoulder);
+      const cap = mesh(
+        new THREE.SphereGeometry(0.12, seg, 16, 0, Math.PI * 2, 0, Math.PI / 2),
+        shell,
+        arm.shoulder,
+      );
       cap.position.set(side * 0.012, 0.012, 0);
       cap.rotation.z = -side * 0.38;
       const shoulderRing = mesh(torus(0.104, 0.005), ring, arm.shoulder, side * 0.03, -0.008, 0);

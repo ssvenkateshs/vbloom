@@ -24,7 +24,10 @@ export const buildTransform: SceneBuilder = ({ kit, island, reducedMotion }) => 
   const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.3, 1.2, 40), kit.structure());
   pedestal.position.set(corePos.x, 0.6, corePos.z);
   stage.add(pedestal);
-  const pedestalRing = new THREE.Mesh(new THREE.TorusGeometry(1.0, 0.025, 8, 80), kit.glow(PALETTE.violet, 3));
+  const pedestalRing = new THREE.Mesh(
+    new THREE.TorusGeometry(1.0, 0.025, 8, 80),
+    kit.glow(PALETTE.violet, 3),
+  );
   pedestalRing.rotation.x = Math.PI / 2;
   pedestalRing.position.set(corePos.x, 1.22, corePos.z);
   stage.add(pedestalRing);
@@ -47,7 +50,10 @@ export const buildTransform: SceneBuilder = ({ kit, island, reducedMotion }) => 
   );
   core.add(shell);
   const rings = [0, 1, 2].map((i) => {
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.75 + i * 0.28, 0.015, 6, 120), kit.glow(i === 1 ? PALETTE.cyan : PALETTE.violet, 2.6));
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(1.75 + i * 0.28, 0.015, 6, 120),
+      kit.glow(i === 1 ? PALETTE.cyan : PALETTE.violet, 2.6),
+    );
     ring.rotation.set(Math.PI / 2 + i * 0.7, i * 0.9, 0);
     core.add(ring);
     return ring;
@@ -92,14 +98,23 @@ export const buildTransform: SceneBuilder = ({ kit, island, reducedMotion }) => 
     stage.add(label);
     const mid = base.clone().lerp(corePos, 0.5);
     mid.y = 4.4 + (i % 2) * 0.8;
-    const swirl = new THREE.Vector3(-(corePos.z - base.z), 0, corePos.x - base.x).normalize().multiplyScalar(1.6);
+    const swirl = new THREE.Vector3(-(corePos.z - base.z), 0, corePos.x - base.x)
+      .normalize()
+      .multiplyScalar(1.6);
     const color = new THREE.Color(source.color).multiplyScalar(2.6);
     for (let k = 0; k < PER_STREAM; k++) {
       const idx = i * PER_STREAM + k;
       streams.colors.set([color.r, color.g, color.b], idx * 3);
       streams.sizes[idx] = 0.1 + random() * 0.07;
     }
-    return { curve: curveThrough([glyph.position.clone(), mid.add(swirl), corePos.clone().add(new THREE.Vector3(0, 0.2, 0))]), glyph };
+    return {
+      curve: curveThrough([
+        glyph.position.clone(),
+        mid.add(swirl),
+        corePos.clone().add(new THREE.Vector3(0, 0.2, 0)),
+      ]),
+      glyph,
+    };
   });
   stage.add(streams);
 

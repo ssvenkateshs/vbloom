@@ -4,7 +4,14 @@ import { Robot } from "../robot";
 import type { SceneBuilder } from "./types";
 
 const BRANCHES = ["AI", "DATA", "CLOUD", "AUTOMATION", "APPLICATIONS", "ANALYTICS"];
-const BRANCH_COLORS = [PALETTE.violet, PALETTE.cyan, PALETTE.mint, PALETTE.plasma, PALETTE.teal, PALETTE.amber];
+const BRANCH_COLORS = [
+  PALETTE.violet,
+  PALETTE.cyan,
+  PALETTE.mint,
+  PALETTE.plasma,
+  PALETTE.teal,
+  PALETTE.amber,
+];
 
 /**
  * 06 Bloom: "From complexity to clarity".
@@ -38,8 +45,14 @@ export const buildBloom: SceneBuilder = ({ kit, island }) => {
     const az = (i / BRANCHES.length) * Math.PI * 2 + 0.3;
     const base = V(0, 1.9 + (i % 3) * 0.3, 0);
     const dir = V(Math.cos(az), 0.38 + random() * 0.18, Math.sin(az)).normalize();
-    const mid = base.clone().addScaledVector(dir, 1.3).add(V(0, 0.45, 0));
-    const tip = base.clone().addScaledVector(dir, 2.8).add(V(0, 0.7, 0));
+    const mid = base
+      .clone()
+      .addScaledVector(dir, 1.3)
+      .add(V(0, 0.45, 0));
+    const tip = base
+      .clone()
+      .addScaledVector(dir, 2.8)
+      .add(V(0, 0.7, 0));
     const tube = kit.tube(curveThrough([base, mid, tip]), {
       radius: 0.05,
       color: PALETTE.mint,
@@ -64,16 +77,29 @@ export const buildBloom: SceneBuilder = ({ kit, island }) => {
     for (const k of [-1, 1]) {
       const twigDir = dir.clone().applyAxisAngle(V(0, 1, 0), k * 0.7);
       const from = base.clone().lerp(tip, 0.55);
-      const to = from.clone().addScaledVector(twigDir, 0.9).add(V(0, 0.45, 0));
-      const twig = kit.tube(curveThrough([from, from.clone().lerp(to, 0.5).add(V(0, 0.15, 0)), to]), {
-        radius: 0.03,
-        color: PALETTE.mint,
-        colorEnd: BRANCH_COLORS[i],
-        intensity: 1.4,
-        head: 1.2,
-        progress: 0,
-        segments: 24,
-      });
+      const to = from
+        .clone()
+        .addScaledVector(twigDir, 0.9)
+        .add(V(0, 0.45, 0));
+      const twig = kit.tube(
+        curveThrough([
+          from,
+          from
+            .clone()
+            .lerp(to, 0.5)
+            .add(V(0, 0.15, 0)),
+          to,
+        ]),
+        {
+          radius: 0.03,
+          color: PALETTE.mint,
+          colorEnd: BRANCH_COLORS[i],
+          intensity: 1.4,
+          head: 1.2,
+          progress: 0,
+          segments: 24,
+        },
+      );
       stage.add(twig);
       branches.push({ tube: twig, start: 0.45 + i * 0.03, end: 0.7 + i * 0.03 });
       blossomSites.push(to);
@@ -155,7 +181,11 @@ export const buildBloom: SceneBuilder = ({ kit, island }) => {
         const drift = (t * 0.05 + i * 0.013) % 1;
         const loose = i % 7 === 0 ? drift : 0;
         blossoms.positions.set(
-          [b.x + Math.sin(t * 0.8 + i) * 0.05 + loose * 1.6, b.y - loose * 2.2 + Math.sin(t + i) * 0.04, b.z + loose * 0.8],
+          [
+            b.x + Math.sin(t * 0.8 + i) * 0.05 + loose * 1.6,
+            b.y - loose * 2.2 + Math.sin(t + i) * 0.04,
+            b.z + loose * 0.8,
+          ],
           i * 3,
         );
         blossoms.alphas[i] = open * (loose ? 1 - drift : 1);

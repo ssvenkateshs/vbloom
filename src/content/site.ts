@@ -128,7 +128,8 @@ export const services = {
     {
       id: "ai",
       title: "AI & Intelligent Automation",
-      summary: "AI agents, enterprise copilots and document intelligence that take repetitive work off your teams.",
+      summary:
+        "AI agents, enterprise copilots and document intelligence that take repetitive work off your teams.",
       points: ["AI agents & copilots", "Document intelligence", "Process automation"],
       icon: "spark",
     },
@@ -196,7 +197,11 @@ export const scenarios = {
       industry: "Customer service",
       title: "1,000 support emails",
       without: ["Queues pile up", "Slow, inconsistent replies", "Agents buried in triage"],
-      with: ["An AI agent reads and routes every request", "Routine answers handled automatically", "People focus on the hard cases"],
+      with: [
+        "An AI agent reads and routes every request",
+        "Routine answers handled automatically",
+        "People focus on the hard cases",
+      ],
     },
     {
       industry: "Finance",
@@ -225,11 +230,31 @@ export const innovationLab = {
   intro: "The technologies we put to work. Move your cursor over a card.",
   items: [
     { title: "AI Agents", body: "Software that plans, decides and acts across your systems.", icon: "spark" },
-    { title: "Autonomous Workflows", body: "Processes that run themselves and escalate only the exceptions.", icon: "nodes" },
-    { title: "Digital Twins", body: "Live virtual models of sites, plants and assets you can test against.", icon: "cube" },
-    { title: "Computer Vision", body: "Cameras that inspect, count and flag issues in real time.", icon: "eye" },
-    { title: "Enterprise Copilots", body: "Assistants that know your documents, data and processes.", icon: "chat" },
-    { title: "Predictive Analytics", body: "Forecasts that warn you early about delays, demand and risk.", icon: "chart" },
+    {
+      title: "Autonomous Workflows",
+      body: "Processes that run themselves and escalate only the exceptions.",
+      icon: "nodes",
+    },
+    {
+      title: "Digital Twins",
+      body: "Live virtual models of sites, plants and assets you can test against.",
+      icon: "cube",
+    },
+    {
+      title: "Computer Vision",
+      body: "Cameras that inspect, count and flag issues in real time.",
+      icon: "eye",
+    },
+    {
+      title: "Enterprise Copilots",
+      body: "Assistants that know your documents, data and processes.",
+      icon: "chat",
+    },
+    {
+      title: "Predictive Analytics",
+      body: "Forecasts that warn you early about delays, demand and risk.",
+      icon: "chart",
+    },
   ],
 } as const;
 
@@ -238,16 +263,30 @@ export const pillars = {
   title: "We don't implement technology. We engineer business evolution.",
   intro: "A transformation partner, not a vendor.",
   items: [
-    { name: "Imagine", subtitle: "Innovation & strategy", body: "We start with the business problem and design where AI can change the outcome." },
-    { name: "Transform", subtitle: "Technology & automation", body: "We connect your systems, build the intelligence layer and automate the work." },
-    { name: "Bloom", subtitle: "Growth & continuous improvement", body: "We stay to measure, tune and grow what we build together." },
+    {
+      name: "Imagine",
+      subtitle: "Innovation & strategy",
+      body: "We start with the business problem and design where AI can change the outcome.",
+    },
+    {
+      name: "Transform",
+      subtitle: "Technology & automation",
+      body: "We connect your systems, build the intelligence layer and automate the work.",
+    },
+    {
+      name: "Bloom",
+      subtitle: "Growth & continuous improvement",
+      body: "We stay to measure, tune and grow what we build together.",
+    },
   ],
   about:
     "VBloom is a newly founded company. That means direct access to the people who build your solution, flexible ways of working, and a partner invested in making your first project one you are proud to talk about.",
 } as const;
 
 export const finalCta = {
-  title: "Ready to bloom beyond technology?",
+  titleLead: "Ready to",
+  titleAccent: "bloom beyond",
+  titleTail: "technology?",
   subhead:
     "Transform your business with AI, digital innovation, enterprise applications, data intelligence and automation.",
   cta: { label: "Start your transformation", href: "#contact" },

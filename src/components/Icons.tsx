@@ -79,6 +79,62 @@ export const icons = {
       />
     </svg>
   ),
+  chart: ({ className = base }: IconProps) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4.5 19.5h15M7.5 16v-4M12 16V8M16.5 16v-6.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  nodes: ({ className = base }: IconProps) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="6" cy="6.5" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="18" cy="6.5" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="12" cy="17.5" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M8.2 6.5h7.6M7.1 8.4l3.8 7.2M16.9 8.4l-3.8 7.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  cube: ({ className = base }: IconProps) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M12 3.5l7.5 4.2v8.6L12 20.5l-7.5-4.2V7.7Zm0 0v0M4.5 7.7 12 12l7.5-4.3M12 12v8.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  eye: ({ className = base }: IconProps) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M2.8 12S6.2 5.8 12 5.8 21.2 12 21.2 12 17.8 18.2 12 18.2 2.8 12 2.8 12Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="12" r="2.8" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  ),
+  chat: ({ className = base }: IconProps) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.5A1.5 1.5 0 0 1 19 17H10l-4.5 3.5V17H5a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 5 5.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M8 10.5h8M8 13.5h5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  ),
 } as const;
 
 export type IconName = keyof typeof icons;

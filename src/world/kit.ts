@@ -208,14 +208,26 @@ export class Kit {
         )
       : this.cached(
           "shell-low",
-          () => new THREE.MeshStandardMaterial({ color: 0x0d0e17, metalness: 0.6, roughness: 0.24, envMapIntensity: 1 }),
+          () =>
+            new THREE.MeshStandardMaterial({
+              color: 0x0d0e17,
+              metalness: 0.6,
+              roughness: 0.24,
+              envMapIntensity: 1,
+            }),
         );
   }
 
   joint() {
     return this.cached(
       "joint",
-      () => new THREE.MeshStandardMaterial({ color: 0x15161f, metalness: 0.55, roughness: 0.5, envMapIntensity: 0.55 }),
+      () =>
+        new THREE.MeshStandardMaterial({
+          color: 0x15161f,
+          metalness: 0.55,
+          roughness: 0.5,
+          envMapIntensity: 0.55,
+        }),
     );
   }
 
@@ -239,7 +251,12 @@ export class Kit {
     return this.cached(
       "structure",
       () =>
-        new THREE.MeshStandardMaterial({ color: 0x0c0d1a, metalness: 0.55, roughness: 0.32, envMapIntensity: 0.45 }),
+        new THREE.MeshStandardMaterial({
+          color: 0x0c0d1a,
+          metalness: 0.55,
+          roughness: 0.32,
+          envMapIntensity: 0.45,
+        }),
     );
   }
 
@@ -309,7 +326,8 @@ export class Kit {
     ctx.font = font;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    if ("letterSpacing" in ctx) (ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = "6px";
+    if ("letterSpacing" in ctx)
+      (ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = "6px";
     const css = `#${new THREE.Color(hex).getHexString()}`;
     if (opts.glow !== false) {
       ctx.shadowColor = css;

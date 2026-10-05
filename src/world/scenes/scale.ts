@@ -66,7 +66,14 @@ export const buildScale: SceneBuilder = ({ kit, island, reducedMotion }) => {
       const r = Math.hypot(x, z);
       if (r > 7.6 || r < 1.6) continue;
       if (landmarks.some((l) => Math.hypot(l.x - x, l.z - z) < 1.9)) continue;
-      towers.push({ x, z, w: 0.6 + random() * 0.6, d: 0.6 + random() * 0.6, h: 0.6 + random() * random() * 4.2, delay: r / 7.6 });
+      towers.push({
+        x,
+        z,
+        w: 0.6 + random() * 0.6,
+        d: 0.6 + random() * 0.6,
+        h: 0.6 + random() * random() * 4.2,
+        delay: r / 7.6,
+      });
     }
   }
   const cityMat = new THREE.ShaderMaterial({
@@ -160,11 +167,22 @@ export const buildScale: SceneBuilder = ({ kit, island, reducedMotion }) => {
     bank.add(t);
   }
   const BARS = 6;
-  const bars = new THREE.InstancedMesh(new THREE.BoxGeometry(0.16, 1, 0.16), kit.glow(PALETTE.plasma, 2.4), BARS);
+  const bars = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(0.16, 1, 0.16),
+    kit.glow(PALETTE.plasma, 2.4),
+    BARS,
+  );
   bars.position.set(0, 3.9, 0);
   bank.add(bars);
-  const trendPoints = Array.from({ length: 12 }, (_, i) => new THREE.Vector3(-0.9 + i * 0.16, 4.3 + Math.sin(i * 0.8) * 0.12 + i * 0.05, 0.2));
-  const trend = kit.tube(new THREE.CatmullRomCurve3(trendPoints), { color: PALETTE.mint, radius: 0.02, progress: 0 });
+  const trendPoints = Array.from(
+    { length: 12 },
+    (_, i) => new THREE.Vector3(-0.9 + i * 0.16, 4.3 + Math.sin(i * 0.8) * 0.12 + i * 0.05, 0.2),
+  );
+  const trend = kit.tube(new THREE.CatmullRomCurve3(trendPoints), {
+    color: PALETTE.mint,
+    radius: 0.02,
+    progress: 0,
+  });
   bank.add(trend);
 
   // Digital twin hovering over the city centre.
@@ -181,7 +199,10 @@ export const buildScale: SceneBuilder = ({ kit, island, reducedMotion }) => {
     box.position.y = y;
     twin.add(box);
   }
-  const twinScan = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 2.4), kit.glow(PALETTE.cyan, 1, { opacity: 0.18, additive: true, side: THREE.DoubleSide }));
+  const twinScan = new THREE.Mesh(
+    new THREE.PlaneGeometry(2.4, 2.4),
+    kit.glow(PALETTE.cyan, 1, { opacity: 0.18, additive: true, side: THREE.DoubleSide }),
+  );
   twinScan.rotation.x = -Math.PI / 2;
   twin.add(twinScan);
   const twinBeam = new THREE.Mesh(
@@ -200,7 +221,13 @@ export const buildScale: SceneBuilder = ({ kit, island, reducedMotion }) => {
   ].map(([a, b], i) => {
     const from = landmarks[a].clone().setY(2.6);
     const to = landmarks[b].clone().setY(2.6);
-    const tube = kit.tube(arcBetween(from, to, 2.2), { color: i % 2 ? PALETTE.violet : PALETTE.cyan, radius: 0.025, dash: 8, speed: 0.7, progress: 0 });
+    const tube = kit.tube(arcBetween(from, to, 2.2), {
+      color: i % 2 ? PALETTE.violet : PALETTE.cyan,
+      radius: 0.025,
+      dash: 8,
+      speed: 0.7,
+      progress: 0,
+    });
     stage.add(tube);
     return tube;
   });
@@ -239,11 +266,16 @@ export const buildScale: SceneBuilder = ({ kit, island, reducedMotion }) => {
       for (let i = 0; i < STEAM; i++) {
         const age = (t * 0.35 * motion + i / STEAM) % 1;
         const src = chimneys[i % chimneys.length];
-        steam.positions.set([src.x + Math.sin(i * 3.1 + t) * 0.15 * age, src.y + age * 2.2, src.z + age * 0.4], i * 3);
+        steam.positions.set(
+          [src.x + Math.sin(i * 3.1 + t) * 0.15 * age, src.y + age * 2.2, src.z + age * 0.4],
+          i * 3,
+        );
         steam.alphas[i] = (1 - age) * 0.6 * smoothstep(0.3, 0.7, intro);
       }
       steam.commit();
-      crossMat.color.copy(hdr(PALETTE.mint, 1.5 + 2 * Math.abs(Math.sin(t * 1.6)) * smoothstep(0.3, 0.8, intro)));
+      crossMat.color.copy(
+        hdr(PALETTE.mint, 1.5 + 2 * Math.abs(Math.sin(t * 1.6)) * smoothstep(0.3, 0.8, intro)),
+      );
       for (let b = 0; b < BARS; b++) {
         const h = 0.2 + (0.5 + 0.5 * Math.sin(t * 1.1 + b)) * 0.7 * smoothstep(0.3, 0.8, intro);
         tmpObject.position.set(-0.8 + b * 0.32, h / 2, 0);
@@ -262,7 +294,11 @@ export const buildScale: SceneBuilder = ({ kit, island, reducedMotion }) => {
 
       drones.forEach((d) => {
         const a = d.phase + t * d.speed * motion;
-        d.drone.position.set(Math.cos(a) * d.radius, d.height + Math.sin(t * 1.3 + d.phase) * 0.3, Math.sin(a) * d.radius * 0.8);
+        d.drone.position.set(
+          Math.cos(a) * d.radius,
+          d.height + Math.sin(t * 1.3 + d.phase) * 0.3,
+          Math.sin(a) * d.radius * 0.8,
+        );
         d.drone.rotation.y = -a;
         d.drone.visible = intro > 0.35;
         d.spin(t);

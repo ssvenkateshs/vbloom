@@ -62,7 +62,13 @@ export const buildChallenge: SceneBuilder = ({ kit, island, reducedMotion }) => 
   const MAILS = kit.lowPower ? 34 : 64;
   const sheets = new THREE.InstancedMesh(
     new THREE.PlaneGeometry(0.5, 0.66),
-    kit.own(new THREE.MeshBasicMaterial({ map: sheetTexture(kit), side: THREE.DoubleSide, color: hdr(0xffffff, 0.9) })),
+    kit.own(
+      new THREE.MeshBasicMaterial({
+        map: sheetTexture(kit),
+        side: THREE.DoubleSide,
+        color: hdr(0xffffff, 0.9),
+      }),
+    ),
     SHEETS,
   );
   const mails = new THREE.InstancedMesh(
@@ -87,7 +93,13 @@ export const buildChallenge: SceneBuilder = ({ kit, island, reducedMotion }) => 
     return { sprite, base: sprite.position.y, phase: random() * 10 };
   });
 
-  const robot = new Robot(kit, { detail: "low", eye: PALETTE.red, accent: PALETTE.red, emblem: false, seed: 7 });
+  const robot = new Robot(kit, {
+    detail: "low",
+    eye: PALETTE.red,
+    accent: PALETTE.red,
+    emblem: false,
+    seed: 7,
+  });
   robot.root.position.set(0, 0, 0.8);
   robot.slump = 1;
   robot.setMood("alert");
@@ -104,7 +116,11 @@ export const buildChallenge: SceneBuilder = ({ kit, island, reducedMotion }) => 
       flock.forEach((f, i) => {
         const angle = f.phase + t * f.speed * (0.5 + chaos * 0.9) * motion;
         const r = f.radius + Math.sin(t * 1.3 + f.phase) * 0.7 * chaos;
-        tmpObject.position.set(Math.cos(angle) * r, f.height + Math.sin(t * 0.9 + f.phase) * 0.6, Math.sin(angle) * r);
+        tmpObject.position.set(
+          Math.cos(angle) * r,
+          f.height + Math.sin(t * 0.9 + f.phase) * 0.6,
+          Math.sin(angle) * r,
+        );
         tmpObject.rotation.set(t * f.spin.x * motion, t * f.spin.y * motion, t * f.spin.z * motion);
         tmpObject.scale.setScalar(clamp(intro * 3 - (i % 10) * 0.08, 0.2, 1));
         tmpObject.updateMatrix();
@@ -119,14 +135,16 @@ export const buildChallenge: SceneBuilder = ({ kit, island, reducedMotion }) => 
         m.strip.color.copy(hdr(PALETTE.red, 0.6 + flicker * 1.8 * chaos));
         m.beacon.scale.setScalar(0.8 + Math.abs(Math.sin(t * 4 + m.phase)) * 0.6 * chaos);
       }
-      cables.forEach((c, i) => (c.material.uniforms.uOpacity.value = 0.4 + 0.6 * Math.abs(Math.sin(t * 3 + i))));
+      cables.forEach(
+        (c, i) => (c.material.uniforms.uOpacity.value = 0.4 + 0.6 * Math.abs(Math.sin(t * 3 + i))),
+      );
       warnings.forEach((w, i) => {
         w.sprite.position.y = w.base + Math.sin(t * 1.4 + w.phase) * 0.25;
         w.sprite.material.opacity = intro * (Math.sin(t * 5 + i * 1.7) > -0.2 ? 1 : 0.2);
       });
 
       // The robot glances frantically from one problem to the next.
-      const target = Math.floor(t * 1.4) % warnings.length;
+      const target = ((Math.floor(t * 1.4) % warnings.length) + warnings.length) % warnings.length;
       glance.copy(warnings[target].sprite.position);
       robot.lookAt(stage.localToWorld(glance));
       robot.update(dt, t);

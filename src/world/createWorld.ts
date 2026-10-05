@@ -34,6 +34,8 @@ export type World = {
   debugView(position: [number, number, number] | null, target?: [number, number, number], fov?: number): void;
   /** Debug only: world transform of a named object. */
   debugObject(name: string): { position: number[]; rotation: number[]; worldPosition: number[] } | null;
+  /** Debug only: show or hide a named object (used to render clean stills). */
+  debugSetVisible(name: string, visible: boolean): void;
 };
 
 /** Island centres: a winding route up and away, toward the ringed planet. */
@@ -50,7 +52,7 @@ type Path = { pos: THREE.CatmullRomCurve3; target: THREE.CatmullRomCurve3; fov: 
 
 function buildPath(aspect: number, scenes: SceneHandle[]): Path {
   const narrow = aspect < 1;
-  const f = narrow ? clamp(1.2 / aspect, 1, 2.2) : 1;
+  const f = narrow ? clamp(1.05 / aspect, 1, 1.7) : 1;
   const pos: THREE.Vector3[] = [];
   const target: THREE.Vector3[] = [];
   const fov: number[] = [];
@@ -62,7 +64,7 @@ function buildPath(aspect: number, scenes: SceneHandle[]): Path {
   const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
 
   // Hero: robot right of centre on wide screens, centred and higher on phones.
-  if (narrow) add(V(0, 1.55, Math.max(4.4, 2.4 / aspect)), V(0, 1.22, 0), 33);
+  if (narrow) add(V(0, 1.15, Math.max(5, 2.9 / aspect)), V(0, 0.2, 0), 33);
   else add(V(-0.8, 1.5, 3.55), V(-0.8, 1.5, 0), 32);
   // Rise: look down on the robot as it waves goodbye.
   add(V(-1.7, 4.8, 6.4), V(0, 1.3, 0), 40);
@@ -85,19 +87,34 @@ function buildPath(aspect: number, scenes: SceneHandle[]): Path {
     const upDir = new THREE.Vector3().crossVectors(rightDir, forward).normalize();
     const halfHeight = distance * Math.tan(THREE.MathUtils.degToRad((narrow ? 51 : 42) / 2));
     const offset = narrow
-      ? upDir.multiplyScalar(-0.42 * halfHeight)
+      ? upDir.multiplyScalar(-0.3 * halfHeight)
       : rightDir.multiplyScalar(-0.36 * halfHeight * aspect);
     add(holdPos.add(offset), holdTarget.add(offset), 42);
     if (next) {
-      add(c.clone().add(V(-side * 5 * f, 9, 10 * f)), c.clone().lerp(next, 0.4).add(V(0, 4, 0)), 48);
-      add(c.clone().lerp(next, 0.5).add(V(0, 22, 14)), next.clone().add(V(0, 2, 0)), 52);
+      add(
+        c.clone().add(V(-side * 5 * f, 9, 10 * f)),
+        c
+          .clone()
+          .lerp(next, 0.4)
+          .add(V(0, 4, 0)),
+        48,
+      );
+      add(
+        c
+          .clone()
+          .lerp(next, 0.5)
+          .add(V(0, 22, 14)),
+        next.clone().add(V(0, 2, 0)),
+        52,
+      );
     } else {
       // Finale pull-back: the bloomed island with the planet behind it.
       add(c.clone().add(V(-12 * f, 20, 34 * f)), c.clone().add(V(-5, 5, -14)), 50);
     }
   });
 
-  if (pos.length !== POINT_COUNT) throw new Error(`camera path has ${pos.length} points, expected ${POINT_COUNT}`);
+  if (pos.length !== POINT_COUNT)
+    throw new Error(`camera path has ${pos.length} points, expected ${POINT_COUNT}`);
   return {
     pos: new THREE.CatmullRomCurve3(pos, false, "centripetal"),
     target: new THREE.CatmullRomCurve3(target, false, "centripetal"),
@@ -260,6 +277,9 @@ export async function createWorld(host: HTMLElement, options: WorldOptions): Pro
   const up = new THREE.Vector3();
   const timer = new THREE.Timer();
   let frame = 0;
+  // Our own clock: rAF timestamps mark the frame start, so the first frame after a
+  // resume can yield a negative delta. Accumulating clamped deltas keeps time monotonic.
+  let elapsed = 0;
   let running = false;
   let raf = 0;
   const frameTimes: number[] = [];
@@ -294,8 +314,9 @@ export async function createWorld(host: HTMLElement, options: WorldOptions): Pro
     if (!running) return;
     raf = requestAnimationFrame(tick);
     timer.update(timestamp);
-    const dt = Math.min(timer.getDelta(), 1 / 20);
-    const t = timer.getElapsed();
+    const dt = clamp(timer.getDelta(), 0, 1 / 20);
+    elapsed += dt;
+    const t = elapsed;
     kit.time.value = t;
     frame++;
     renderer.info.reset();
@@ -335,7 +356,8 @@ export async function createWorld(host: HTMLElement, options: WorldOptions): Pro
       camera.updateProjectionMatrix();
     }
     kit.pointScale.value =
-      (renderer.domElement.height || host.clientHeight) / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
+      (renderer.domElement.height || host.clientHeight) /
+      (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
 
     // Hero robot.
     const heroVisible = u < POINT.establish(0) + 0.5;
@@ -429,6 +451,10 @@ export async function createWorld(host: HTMLElement, options: WorldOptions): Pro
       debugPose = position
         ? { position: new THREE.Vector3(...position), target: new THREE.Vector3(...target), fov }
         : null;
+    },
+    debugSetVisible(name: string, visible: boolean) {
+      const object = scene.getObjectByName(name);
+      if (object) object.visible = visible;
     },
     debugObject(name: string) {
       const object = scene.getObjectByName(name);

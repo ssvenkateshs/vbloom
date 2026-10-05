@@ -32,7 +32,7 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="rounded-full px-4 py-2 text-sm font-medium text-text-muted transition hover:bg-white/8 hover:text-white"
+              className="text-text-muted rounded-full px-4 py-2 text-sm font-medium transition hover:bg-white/8 hover:text-white"
             >
               {link.label}
             </a>
@@ -42,10 +42,10 @@ export function Header() {
         <div className="flex items-center gap-2">
           <a
             href="#contact"
-            className="group hidden items-center gap-2.5 rounded-full bg-white py-1.5 pr-1.5 pl-5 text-sm font-semibold text-space-950 transition hover:bg-brand-200 sm:inline-flex"
+            className="group text-space-950 hover:bg-brand-200 hidden items-center gap-2.5 rounded-full bg-white py-1.5 pr-1.5 pl-5 text-sm font-semibold transition sm:inline-flex"
           >
             Start your transformation
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-brand-500 text-white transition-transform group-hover:translate-x-0.5">
+            <span className="bg-brand-500 grid h-8 w-8 place-items-center rounded-full text-white transition-transform group-hover:translate-x-0.5">
               <ArrowRight className="h-4 w-4" />
             </span>
           </a>
@@ -59,7 +59,12 @@ export function Header() {
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               {menuOpen ? (
-                <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+                <path
+                  d="M6.5 6.5l11 11M17.5 6.5l-11 11"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                />
               ) : (
                 <path d="M4 8h16M4 16h16" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
               )}
@@ -83,7 +88,7 @@ export function Header() {
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 block rounded-full bg-white px-5 py-3.5 text-center text-sm font-semibold text-space-950"
+            className="text-space-950 mt-2 block rounded-full bg-white px-5 py-3.5 text-center text-sm font-semibold"
           >
             Start your transformation
           </a>

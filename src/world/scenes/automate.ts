@@ -63,7 +63,10 @@ export const buildAutomate: SceneBuilder = ({ kit, island, reducedMotion }) => {
   belt.add(beltTop);
 
   // The AI scanning arch.
-  const arch = new THREE.Mesh(new THREE.TorusGeometry(1.45, 0.07, 10, 64, Math.PI), kit.glow(PALETTE.violet, 2.8));
+  const arch = new THREE.Mesh(
+    new THREE.TorusGeometry(1.45, 0.07, 10, 64, Math.PI),
+    kit.glow(PALETTE.violet, 2.8),
+  );
   arch.position.set(0, 1, 0);
   belt.add(arch);
   const scanMat = kit.glow(PALETTE.violet, 1.2, { opacity: 0.25, additive: true, side: THREE.DoubleSide });
@@ -72,14 +75,21 @@ export const buildAutomate: SceneBuilder = ({ kit, island, reducedMotion }) => {
   scan.rotation.y = Math.PI / 2;
   scan.scale.set(1, 1, 1);
   belt.add(scan);
-  const scanSheet = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.4), kit.glow(PALETTE.violet, 1, { opacity: 0.12, additive: true, side: THREE.DoubleSide }));
+  const scanSheet = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.6, 1.4),
+    kit.glow(PALETTE.violet, 1, { opacity: 0.12, additive: true, side: THREE.DoubleSide }),
+  );
   scanSheet.position.set(0, 1.7, 0);
   scanSheet.rotation.y = Math.PI / 2;
   belt.add(scanSheet);
 
   // Documents in, reports out.
   const ITEMS = 9;
-  const items = new THREE.InstancedMesh(new THREE.BoxGeometry(0.62, 0.05, 0.82), kit.own(new THREE.MeshBasicMaterial({ color: 0xffffff })), ITEMS);
+  const items = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(0.62, 0.05, 0.82),
+    kit.own(new THREE.MeshBasicMaterial({ color: 0xffffff })),
+    ITEMS,
+  );
   belt.add(items);
   const paper = hdr(0xd9def5, 0.9);
   const report = hdr(PALETTE.mint, 2.2);
@@ -101,7 +111,10 @@ export const buildAutomate: SceneBuilder = ({ kit, island, reducedMotion }) => {
   dash.position.set(4.9, 2.6, -2.2);
   dash.rotation.y = -0.45;
   stage.add(dash);
-  const panel = new THREE.Mesh(new THREE.PlaneGeometry(3, 1.9), kit.glow(PALETTE.violetDeep, 0.6, { opacity: 0.35, additive: true, side: THREE.DoubleSide }));
+  const panel = new THREE.Mesh(
+    new THREE.PlaneGeometry(3, 1.9),
+    kit.glow(PALETTE.violetDeep, 0.6, { opacity: 0.35, additive: true, side: THREE.DoubleSide }),
+  );
   dash.add(panel);
   const frame = new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.PlaneGeometry(3, 1.9)),
@@ -109,7 +122,11 @@ export const buildAutomate: SceneBuilder = ({ kit, island, reducedMotion }) => {
   );
   dash.add(frame);
   const BARS = 7;
-  const bars = new THREE.InstancedMesh(new THREE.BoxGeometry(0.22, 1, 0.04), kit.glow(PALETTE.mint, 2.6), BARS);
+  const bars = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(0.22, 1, 0.04),
+    kit.glow(PALETTE.mint, 2.6),
+    BARS,
+  );
   dash.add(bars);
   const dashLabel = kit.label("AUTO REPORT", PALETTE.mint, 0.22);
   dashLabel.position.set(-0.75, 0.7, 0.02);
@@ -120,7 +137,10 @@ export const buildAutomate: SceneBuilder = ({ kit, island, reducedMotion }) => {
     robot.root.position.set(x, 0, -1.1);
     stage.add(robot.root);
     robot.setWorkAnchors(new THREE.Vector3(0.2, 1.22, 0.55), new THREE.Vector3(-0.2, 1.22, 0.55));
-    const console = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.32), kit.glow(PALETTE.cyan, 1, { opacity: 0.22, additive: true, side: THREE.DoubleSide }));
+    const console = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.7, 0.32),
+      kit.glow(PALETTE.cyan, 1, { opacity: 0.22, additive: true, side: THREE.DoubleSide }),
+    );
     console.position.set(x, 1.45, -0.45);
     console.rotation.x = -0.5;
     stage.add(console);
@@ -135,7 +155,7 @@ export const buildAutomate: SceneBuilder = ({ kit, island, reducedMotion }) => {
       beltMat.uniforms.uSpeed.value = 0.9 * run;
       const span = BELT_END - BELT_START;
       for (let i = 0; i < ITEMS; i++) {
-        const x = BELT_START + (((t * 0.9 * run + (i / ITEMS) * span) % span) + span) % span;
+        const x = BELT_START + ((((t * 0.9 * run + (i / ITEMS) * span) % span) + span) % span);
         tmpObject.position.set(x, 1.08, 0);
         tmpObject.rotation.set(0, 0, 0);
         tmpObject.scale.setScalar(clamp(intro * 2));

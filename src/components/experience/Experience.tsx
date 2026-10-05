@@ -188,7 +188,7 @@ export function Experience() {
       className="relative"
       style={{ height: `calc(${layout.total} * 100svh + 100svh)` }}
     >
-      <div ref={stageRef} className="sticky top-0 h-svh w-full overflow-hidden bg-space-950">
+      <div ref={stageRef} className="bg-space-950 sticky top-0 h-svh w-full overflow-hidden">
         {/* Background layer: the 3D world (decorative; all story text is real DOM below). */}
         <div ref={canvasRef} aria-hidden="true" className="absolute inset-0" />
         {mode !== "webgl" && <FallbackBackdrop active={active} loading={mode === "loading"} />}
@@ -200,27 +200,29 @@ export function Experience() {
         >
           <div className="pointer-events-auto mx-auto w-full max-w-7xl px-5 sm:px-8">
             <div className="max-w-xl">
-              <p className="font-tech text-[0.66rem] font-medium uppercase tracking-[0.28em] text-brand-300 sm:text-xs">
+              <p className="font-tech text-brand-300 text-[0.66rem] font-medium tracking-[0.28em] uppercase sm:text-xs">
                 {hero.eyebrow}
               </p>
-              <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
+              <h1 className="font-display mt-5 text-5xl leading-[1.02] font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
                 {hero.titleLead} <span className="text-gradient">{hero.titleAccent}</span>
               </h1>
-              <p className="mt-6 max-w-md text-base leading-relaxed text-text-muted sm:text-lg">{hero.subhead}</p>
+              <p className="text-text-muted mt-6 max-w-md text-base leading-relaxed sm:text-lg">
+                {hero.subhead}
+              </p>
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <a
                   href={hero.primaryCta.href}
-                  className="group inline-flex items-center gap-3 rounded-full bg-white py-2 pr-2 pl-6 text-sm font-semibold text-space-950 transition hover:bg-brand-200"
+                  className="group text-space-950 hover:bg-brand-200 inline-flex items-center gap-3 rounded-full bg-white py-2 pr-2 pl-6 text-sm font-semibold transition"
                 >
                   {hero.primaryCta.label}
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-500 text-white transition-transform group-hover:translate-x-0.5">
+                  <span className="bg-brand-500 grid h-9 w-9 place-items-center rounded-full text-white transition-transform group-hover:translate-x-0.5">
                     <ArrowRight className="h-4 w-4" />
                   </span>
                 </a>
                 <button
                   type="button"
                   onClick={() => scrollToScene(0)}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-brand-300 hover:bg-white/5"
+                  className="hover:border-brand-300 inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/5"
                 >
                   {hero.secondaryCta.label}
                   <span aria-hidden="true">↓</span>
@@ -234,14 +236,14 @@ export function Experience() {
           ref={hintRef}
           className="pointer-events-none absolute right-0 bottom-6 left-0 mx-auto flex w-full max-w-7xl items-end justify-between px-5 sm:px-8"
         >
-          <p className="flex items-center gap-3 font-tech text-[0.62rem] uppercase tracking-[0.3em] text-text-muted">
+          <p className="font-tech text-text-muted flex items-center gap-3 text-[0.62rem] tracking-[0.3em] uppercase">
             <span className="relative h-8 w-5 rounded-full border border-white/30">
-              <span className="absolute top-1.5 left-1/2 h-1.5 w-1 -translate-x-1/2 rounded-full bg-brand-300 [animation:drift_1.6s_ease-in-out_infinite]" />
+              <span className="bg-brand-300 absolute top-1.5 left-1/2 h-1.5 w-1 -translate-x-1/2 [animation:drift_1.6s_ease-in-out_infinite] rounded-full" />
             </span>
             {hero.scrollHint}
           </p>
           {mode === "webgl" && (
-            <p className="hidden font-tech text-[0.62rem] uppercase tracking-[0.3em] text-text-faint md:block">
+            <p className="font-tech text-text-faint hidden text-[0.62rem] tracking-[0.3em] uppercase md:block">
               {hero.robotHint}
             </p>
           )}
@@ -262,23 +264,25 @@ export function Experience() {
                 className="glass pointer-events-auto max-w-md rounded-3xl p-6 shadow-2xl shadow-black/40 sm:p-8"
                 aria-labelledby={`scene-${step.id}`}
               >
-                <p className="flex items-center gap-3 font-tech text-[0.66rem] uppercase tracking-[0.28em] text-[var(--accent)]">
+                <p className="font-tech flex items-center gap-3 text-[0.66rem] tracking-[0.28em] text-[var(--accent)] uppercase">
                   <span className="h-px w-8 bg-[var(--accent)]" />
                   {step.step} · {step.label}
                 </p>
-                <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-text-faint">{step.eyebrow}</p>
+                <p className="text-text-faint mt-4 text-xs font-semibold tracking-[0.18em] uppercase">
+                  {step.eyebrow}
+                </p>
                 <h2
                   id={`scene-${step.id}`}
-                  className="mt-2 font-display text-2xl font-semibold leading-tight tracking-tight text-white sm:text-3xl"
+                  className="font-display mt-2 text-2xl leading-tight font-semibold tracking-tight text-white sm:text-3xl"
                 >
                   {step.title}
                 </h2>
-                <p className="mt-3 text-sm leading-relaxed text-text-muted sm:text-base">{step.body}</p>
+                <p className="text-text-muted mt-3 text-sm leading-relaxed sm:text-base">{step.body}</p>
                 <ul className="mt-5 flex flex-wrap gap-2">
                   {step.tags.map((tag) => (
                     <li
                       key={tag}
-                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-text-muted"
+                      className="text-text-muted rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium"
                     >
                       {tag}
                     </li>
@@ -288,16 +292,16 @@ export function Experience() {
                   <div className="mt-6 flex flex-wrap gap-3">
                     <a
                       href={step.cta.primary.href}
-                      className="group inline-flex items-center gap-3 rounded-full bg-white py-2 pr-2 pl-5 text-sm font-semibold text-space-950 transition hover:bg-bloom-300"
+                      className="group text-space-950 hover:bg-bloom-300 inline-flex items-center gap-3 rounded-full bg-white py-2 pr-2 pl-5 text-sm font-semibold transition"
                     >
                       {step.cta.primary.label}
-                      <span className="grid h-8 w-8 place-items-center rounded-full bg-bloom-500 text-white">
+                      <span className="bg-bloom-500 grid h-8 w-8 place-items-center rounded-full text-white">
                         <ArrowRight className="h-4 w-4" />
                       </span>
                     </a>
                     <a
                       href={step.cta.secondary.href}
-                      className="inline-flex items-center rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-bloom-300"
+                      className="hover:border-bloom-300 inline-flex items-center rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition"
                     >
                       {step.cta.secondary.label}
                     </a>
@@ -318,7 +322,7 @@ export function Experience() {
             <span className="absolute top-2 bottom-2 left-[5px] w-px bg-white/12" />
             <span
               ref={railFillRef}
-              className="absolute top-2 bottom-2 left-[5px] w-px origin-top bg-gradient-to-b from-signal-red via-brand-400 to-bloom-400"
+              className="from-signal-red via-brand-400 to-bloom-400 absolute top-2 bottom-2 left-[5px] w-px origin-top bg-gradient-to-b"
               style={{ transform: "scaleY(0)" }}
             />
             <ol className="space-y-5">
@@ -348,7 +352,7 @@ export function Experience() {
                         {step.step}
                       </span>
                       <span
-                        className={`text-xs font-semibold uppercase tracking-[0.16em] transition-colors ${
+                        className={`text-xs font-semibold tracking-[0.16em] uppercase transition-colors ${
                           isActive ? "text-white" : "text-text-faint group-hover:text-text-muted"
                         }`}
                       >
@@ -372,11 +376,14 @@ export function Experience() {
             <span
               key={step.id}
               className="h-1 rounded-full transition-all duration-300"
-              style={{ width: i === active ? 26 : 10, background: i <= active ? step.accent : "rgb(255 255 255 / 0.2)" }}
+              style={{
+                width: i === active ? 26 : 10,
+                background: i <= active ? step.accent : "rgb(255 255 255 / 0.2)",
+              }}
             />
           ))}
           {current && (
-            <span className="ml-2 font-tech text-[0.6rem] uppercase tracking-[0.24em] text-white/80">
+            <span className="font-tech ml-2 text-[0.6rem] tracking-[0.24em] text-white/80 uppercase">
               {current.step} {current.label}
             </span>
           )}
@@ -398,10 +405,18 @@ function FallbackBackdrop({ active, loading }: { active: number; loading: boolea
           background: `radial-gradient(42rem 32rem at 72% 38%, ${accent}33, transparent 65%), radial-gradient(60rem 22rem at 50% 118%, rgb(61 139 255 / 0.28), transparent 70%)`,
         }}
       />
-      {loading && (
+      {loading ? (
         <div className="absolute top-1/2 right-[18%] hidden h-24 w-24 -translate-y-1/2 rounded-full border border-white/10 md:block">
-          <span className="absolute inset-0 animate-spin rounded-full border-t border-brand-300 [animation-duration:1.4s]" />
+          <span className="border-brand-300 absolute inset-0 animate-spin rounded-full border-t [animation-duration:1.4s]" />
         </div>
+      ) : (
+        // Without WebGL: a still render of the same robot, so the story keeps its guide.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/robot-portrait.png"
+          alt=""
+          className="absolute top-0 right-0 h-full w-full [mask-image:radial-gradient(circle_at_70%_40%,black_30%,transparent_70%)] object-cover opacity-70 md:w-3/5"
+        />
       )}
     </div>
   );

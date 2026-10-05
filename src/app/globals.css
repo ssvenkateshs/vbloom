@@ -98,8 +98,7 @@
   background:
     radial-gradient(60rem 40rem at 88% 4%, rgb(109 94 252 / 0.16), transparent 62%),
     radial-gradient(48rem 34rem at 4% 46%, rgb(192 107 255 / 0.1), transparent 60%),
-    radial-gradient(44rem 30rem at 70% 98%, rgb(51 191 146 / 0.09), transparent 62%),
-    var(--color-page);
+    radial-gradient(44rem 30rem at 70% 98%, rgb(51 191 146 / 0.09), transparent 62%), var(--color-page);
 }
 
 @utility starfield {
