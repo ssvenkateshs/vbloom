@@ -1,0 +1,36 @@
+name: Claude Code Review
+
+# Reviews every pull request that touches the site.
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Review the pull request
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Review this pull request to the VBloom marketing site. Focus on:
+            - Correctness and accessibility of the React components
+            - Responsive layout and light/dark theme handling
+            - Content accuracy: flag any claim about the company that is not
+              backed by something the maintainers supplied
+            Leave inline comments only where there is a concrete problem.
+          claude_args: '--allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr diff:*),Bash(gh pr view:*)"'
