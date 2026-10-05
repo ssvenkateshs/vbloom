@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/* Class-based dark mode so the header toggle can override the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-50: #eafaf4;
+  --color-brand-100: #cdf3e5;
+  --color-brand-200: #9ee7cd;
+  --color-brand-300: #65d6b0;
+  --color-brand-400: #33bf92;
+  --color-brand-500: #12a37a;
+  --color-brand-600: #0a8364;
+  --color-brand-700: #0a6852;
+  --color-brand-800: #0b5342;
+  --color-brand-900: #0a4537;
+
+  --color-accent-400: #8b7cff;
+  --color-accent-500: #6d5efc;
+  --color-accent-600: #5546e0;
+
+  --color-ink-700: #27324a;
+  --color-ink-800: #141d31;
+  --color-ink-900: #0a1122;
+  --color-ink-950: #050a16;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Semantic tokens — one definition per theme, consumed through @theme inline. */
+:root {
+  --page: #ffffff;
+  --page-alt: #f6f9f8;
+  --card: #ffffff;
+  --card-border: #e3e9e7;
+  --text: #0a1122;
+  --text-muted: #525f72;
+  --text-faint: #7b8798;
+  --ring: #12a37a;
+}
+
+:root.dark {
+  --page: #050a16;
+  --page-alt: #0a1122;
+  --card: #0e1729;
+  --card-border: #1e2a42;
+  --text: #eef2f7;
+  --text-muted: #a3b0c2;
+  --text-faint: #7c8a9e;
+  --ring: #33bf92;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-page-alt: var(--page-alt);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor targets so the sticky header never covers a heading. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--page);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility bloom-gradient-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-500),
+    var(--color-brand-300) 45%,
+    var(--color-accent-400)
+  );
+  background-clip: text;
+  color: transparent;
+}
+
+/* Entrance animation, applied once a section scrolls into view. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Only hide pre-animation content when JavaScript is running, so the page is
+   fully readable if the script never executes. */
+.js .reveal {
+  opacity: 0;
+}
+
+.js .reveal.is-visible {
+  animation: rise 0.7s var(--ease-out-soft) forwards;
+}
