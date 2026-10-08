@@ -2,9 +2,11 @@
 
 # VBloom website
 
-Marketing site for **VBloom**, an AI and digital transformation company. One
-page: an immersive scroll-driven 3D journey, followed by conventional sections.
-Next.js 16 (App Router) + TypeScript + Tailwind CSS 4 + Three.js. No backend.
+Marketing site for **VBloom**, a technology services and digital transformation
+company. One page in two parts, following the "Classic IT Services Homepage" brief:
+a 30-second visual story in the hero (Experience A), then a calm, conventional
+corporate site (Experience B). Next.js 16 (App Router) + TypeScript + Tailwind CSS 4.
+No backend, no 3D engine.
 
 The conventions you must follow are in `AGENTS.md`, imported above. This file
 describes how the codebase is put together.
@@ -23,72 +25,71 @@ npm run format     # Prettier, with Tailwind class sorting
 
 ```
 src/
-  content/site.ts            every word of copy, including the six journey steps
-  app/                        layout (fonts, metadata), page composition, tokens
+  content/site.ts            every word of copy, including the six story chapters and scene labels
+  app/                        layout (Manrope + Inter, metadata), page composition, tokens + scene CSS
   components/
-    experience/Experience.tsx sticky stage, hero copy, scene panels, timeline rail
-    sections/                 Services, Product, Scenarios, Impact, InnovationLab, Pillars, FinalCta
-    Header, Contact, Footer, Icons, Reveal, Section
-  world/                      the 3D world (no React)
-    createWorld.ts            renderer, studio env, bloom, camera spline, loop
-    layout.ts                 scroll pacing, shared with the DOM (no three.js)
-    robot.ts                  rigged procedural robot: IK arms, LED eyes
-    hero.ts                   opening shot: robot, wordmark, halo, Earth orbit
-    space.ts island.ts kit.ts wordmark.ts
-    scenes/                   one builder per journey scene
-DESIGN SKILLS/                the supplied lets-scroll skill (reference only)
-UI Design.docx                the supplied design brief
+    hero/Hero.tsx             story controller: copy panels, timeline, pause/play, quiet paths
+    hero/StoryScene.tsx       the SVG scene, rendered from the active chapter
+    hero/scene.ts             choreography: each actor's pose per chapter, links per chapter
+    sections/                 ValueStrip, Services, AiSolutions, Industries, About, Insights, FinalCta
+    Header, Contact, Footer, Icons (incl. Logo, Rosette), Reveal, Section
+DESIGN SKILLS/                an earlier supplied skill (reference only)
+UI Design.docx                an earlier supplied design brief
 ```
 
-## How it fits together
+## How the hero works
 
-**The journey follows the lets-scroll model** from `DESIGN SKILLS/`: an interleaved
-chain of *dive* segments (camera flies into a scene and settles) and *connector*
-segments (pulls up, hops to the next), paced in viewport heights with the skill's
-`lingerEase` remap so the camera dwells while the copy peaks. The difference from
-the skill: scenes are rendered live in Three.js instead of pre-rendered AI video,
-so there are no seams to match and each scene's animation autoplays on arrival.
+**One continuous scene, not six slides.** The same organisation persists: six
+system cards start scattered with broken links (Understand), connect to an AI core
+(Think), feed a data platform with analytics (Know), gain a cloud foundation
+underneath (Scale), get apps and devices on top (Build), and finally resolve into
+six satellites around the business (Transform).
 
-**Scroll drives the camera, time drives the scenes.** `layout.ts` maps scroll to a
-parameter on two Catmull-Rom splines (position and target). Each scene's
-`update(dt, t, intro)` receives an `intro` value that runs 0 → 1 over ~3 s when
-the camera arrives, and resets once the camera is far away.
+**Poses, not timelines.** `scene.ts` gives every actor a pose (`x, y, s, r, o`) for
+each of the six chapters. `StoryScene` writes the active pose as an inline CSS
+transform; `transition` in `globals.css` glides between poses. Links exist per
+chapter and fade in after the actors settle. Ambient motion (flowing dashes,
+bobbing, packets) is CSS keyframes plus a few SMIL `animateMotion` dots.
 
-**Copy is DOM, the world is decoration.** All story text is real HTML over an
-`aria-hidden` canvas. Panel opacity is written straight to the DOM on scroll; React
-re-renders only when the active scene changes.
+**The timeline is the clock.** The active progress bar runs a 5 s CSS animation;
+its `animationend` advances the chapter. Pausing toggles `is-paused`, which pauses
+the bar, every CSS animation in the scene and (via `pauseAnimations`) the SMIL dots.
+The story pauses automatically for reduced motion, when the hero is off-screen and
+when the tab is hidden.
 
-**Hold poses dodge the copy.** In `createWorld.ts` each scene's hold pose slides the
-camera sideways (or down on phones) so the scene composes beside its panel.
+**Server-rendered.** The scene is plain SVG, so chapter 1 is in the initial HTML;
+nothing waits for JavaScript. All six chapters' copy is in the DOM, inactive ones
+`inert` and `aria-hidden`.
 
-**Rendering budget:** dark studio PMREM environment (glossy black needs black
-reflections), bloom above ~1.0 only, adaptive quality (pixel ratio, then bloom
-off), rendering paused off-screen or when the tab is hidden, and only nearby
-scenes are visible. Hero ≈ 100 draw calls.
+The scene's viewBox is 560 × 520 and scales with its column (about 0.65× on phones),
+so scene text is 12–15 px; `.detail` text is hidden below 640 px.
 
-## Debugging the world
+## Themes
 
-Open `/?world-debug` and use `window.__vbloomWorld`:
-`stats()`, `debugView([x,y,z], [tx,ty,tz], fov)` to pin the camera,
-`debugObject(name)` and `debugSetVisible(name, bool)`. `public/robot-portrait.png`
-was rendered this way (wordmark hidden) and doubles as the no-WebGL poster.
+Every colour token derives from four bases (`night-950`, `brand-500`, `bloom-500`,
+`mint-400`) via `color-mix` in `globals.css`; a `[data-theme="…"]` block just sets
+those four. `@theme static` keeps all tokens emitted because the hero SVG reads them
+through inline `style` (SVG attributes don't reliably take `var()`). The floating
+`ThemePicker` (themes listed in `site.ts`) is a temporary tool for choosing a
+palette: it stores the choice in `localStorage`, accepts `?theme=ocean`, and
+`themeBoot.ts` applies it before first paint. Once a theme is chosen, make its bases
+the defaults and remove the picker.
 
 ## Gotchas
 
 - **Don't use Next's generated route types** (`LayoutProps`, `PageProps`); they
   don't exist on a clean checkout and CI typechecks before building.
 - **`rm -rf .next` before a local typecheck** to reproduce CI honestly.
-- **Three.js `Clock` is deprecated** (r183+); the world uses `Timer` but keeps its
-  own clamped elapsed time, because rAF timestamps can produce a negative first delta.
-- **A shader's `vUv.x` along a `TubeGeometry` is the path parameter**; the
-  draw-in effect (`kit.tube`) relies on it.
-- **Headless verification** needs Chromium with
-  `--use-angle=swiftshader --enable-unsafe-swiftshader`. Software rendering is slow,
-  so scene intros take ~25 s of wall time to finish in screenshots.
+- **SVG transforms are CSS here.** Actor groups are drawn around their own
+  origin and use `transform-origin: 0 0`, so `translate → rotate → scale` acts
+  about the actor's centre. Bobbing lives on an inner group so it doesn't fight
+  the pose transition.
+- **Scroll reveals hide content until scrolled into view** (only when JS runs).
+  Full-page screenshots need `.reveal` forced to `.is-visible`.
 - **The `nextjs-agent-rules` block in `AGENTS.md` is managed by `next dev`.**
 - **Don't commit `output: "export"`** in `next.config.ts`; it breaks `npm start`.
 
 ## Open items
 
 Placeholders in `site.ts`: `email`, `phone`, `location`, `legalName`,
-`social.linkedin`, and the product name/description (taken from the brief).
+`social.linkedin`.

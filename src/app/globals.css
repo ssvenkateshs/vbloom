@@ -1,66 +1,116 @@
 @import "tailwindcss";
 
-@theme {
-  /* Brand violet: the AI glow. */
-  --color-brand-200: #d4ceff;
-  --color-brand-300: #b4a8ff;
-  --color-brand-400: #8b7cff;
-  --color-brand-500: #6d5efc;
-  --color-brand-600: #5546e0;
-  --color-brand-700: #4033b8;
+@theme static {
+  /*
+   * Four base colours per theme; every shade below is derived from them, so a theme
+   * (see [data-theme] further down) only has to set the bases.
+   */
+  --color-night-950: #0b0912;
+  --color-brand-500: #7651d7;
+  --color-bloom-500: #b069ff;
+  --color-mint-400: #45dcbc;
 
-  --color-plasma-400: #d08cff;
-  --color-plasma-500: #c06bff;
+  /* Near-black with a hint of the brand: the hero, About band and footer. */
+  --color-night-900: color-mix(in oklab, var(--color-night-950) 95%, var(--color-brand-400));
+  --color-night-800: color-mix(in oklab, var(--color-night-950) 89%, var(--color-brand-400));
+  --color-night-700: color-mix(in oklab, var(--color-night-950) 81%, var(--color-brand-400));
+  --color-night-600: color-mix(in oklab, var(--color-night-950) 70%, var(--color-brand-400));
 
-  /* Bloom teal: growth, the payoff colour. */
-  --color-bloom-300: #65d6b0;
-  --color-bloom-400: #33bf92;
-  --color-bloom-500: #12a37a;
+  /* Brand: the primary accent. */
+  --color-brand-50: color-mix(in oklab, var(--color-brand-500) 6%, white);
+  --color-brand-100: color-mix(in oklab, var(--color-brand-500) 13%, white);
+  --color-brand-200: color-mix(in oklab, var(--color-brand-500) 28%, white);
+  --color-brand-300: color-mix(in oklab, var(--color-brand-500) 50%, white);
+  --color-brand-400: color-mix(in oklab, var(--color-brand-500) 76%, white);
+  --color-brand-600: color-mix(in oklab, var(--color-brand-500) 86%, black);
+  --color-brand-700: color-mix(in oklab, var(--color-brand-500) 70%, black);
 
-  --color-signal-cyan: #4cc9ff;
-  --color-signal-red: #ff4d6d;
+  /* Secondary glow. */
+  --color-bloom-300: color-mix(in oklab, var(--color-bloom-500) 50%, white);
+  --color-bloom-400: color-mix(in oklab, var(--color-bloom-500) 76%, white);
 
-  --color-space-950: #02030a;
-  --color-space-900: #05060f;
-  --color-space-800: #0a0b1e;
-  --color-space-700: #11122b;
-  --color-space-600: #1b1c44;
+  /* Fresh accent: connections that work, small positive details. */
+  --color-mint-300: color-mix(in oklab, var(--color-mint-400) 62%, white);
+  --color-mint-500: color-mix(in oklab, var(--color-mint-400) 86%, black);
+  --color-mint-600: color-mix(in oklab, var(--color-mint-400) 66%, black);
 
-  --color-page: #02030a;
-  --color-text: #eef0ff;
-  --color-text-muted: #a9adcf;
-  --color-text-faint: #6f7396;
-  --color-card: rgb(255 255 255 / 0.035);
-  --color-card-border: rgb(255 255 255 / 0.09);
+  /* Light content surfaces. */
+  --color-paper: #fbfbfd;
+  --color-mist: color-mix(in oklab, var(--color-brand-500) 6%, #fbfbfd);
+  --color-line: color-mix(in oklab, var(--color-brand-500) 10%, #f1f0f4);
+  --color-ink: color-mix(in oklab, var(--color-night-950) 88%, var(--color-brand-500));
+  --color-ink-muted: #5d5873;
+  --color-ink-faint: #8a85a0;
+
+  /* Text on dark surfaces. */
+  --color-on-dark: #f3f0fb;
+  --color-on-dark-muted: #aba5c3;
+  --color-on-dark-faint: #7a7494;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-tech: var(--font-orbitron), var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft:
+    0 24px 60px -28px color-mix(in oklab, var(--color-brand-700) 30%, transparent),
+    0 2px 6px -2px color-mix(in oklab, var(--color-brand-700) 8%, transparent);
+  --shadow-lift:
+    0 34px 70px -30px color-mix(in oklab, var(--color-brand-700) 40%, transparent),
+    0 4px 10px -4px color-mix(in oklab, var(--color-brand-700) 12%, transparent);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Themes on offer in the preview picker. "violet" is the brief's palette and the default. */
+[data-theme="ocean"] {
+  --color-night-950: #060b17;
+  --color-brand-500: #2f6bea;
+  --color-bloom-500: #38bdf8;
+  --color-mint-400: #34e0c2;
+}
+[data-theme="bliss"] {
+  --color-night-950: #0b0c22;
+  --color-brand-500: #6466f1;
+  --color-bloom-500: #9d8cff;
+  --color-mint-400: #2ee6b8;
+}
+[data-theme="emerald"] {
+  --color-night-950: #06100d;
+  --color-brand-500: #0c9a72;
+  --color-bloom-500: #3ad29f;
+  --color-mint-400: #7dd3fc;
+}
+[data-theme="sunset"] {
+  --color-night-950: #12080e;
+  --color-brand-500: #d9466c;
+  --color-bloom-500: #ff8a5b;
+  --color-mint-400: #ffc857;
+}
+[data-theme="graphite"] {
+  --color-night-950: #0a0c11;
+  --color-brand-500: #3b5bdb;
+  --color-bloom-500: #8aa2ff;
+  --color-mint-400: #63e6be;
+}
+
 @layer base {
   html {
-    color-scheme: dark;
-    background: var(--color-page);
+    background: var(--color-paper);
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5.5rem;
   }
 
   body {
-    background: var(--color-page);
-    color: var(--color-text);
+    background: var(--color-paper);
+    color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background: rgb(139 124 255 / 0.45);
-    color: #fff;
+    background: color-mix(in oklab, var(--color-brand-500) 30%, transparent);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand-300);
+    outline: 2px solid var(--color-brand-400);
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -80,36 +130,42 @@
 }
 
 @utility text-gradient {
-  background-image: linear-gradient(100deg, #c9c1ff, #b4a8ff 25%, #c06bff 55%, #65d6b0);
+  background-image: linear-gradient(100deg, var(--color-brand-500), var(--color-bloom-500) 70%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
 
-@utility glass {
-  background: rgb(10 11 30 / 0.55);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgb(255 255 255 / 0.09);
+@utility text-gradient-light {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-100),
+    var(--color-bloom-300) 50%,
+    var(--color-mint-300)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-/* Deep-space backdrop for the content after the 3D journey. */
-@utility space-bg {
+/* Soft lavender wash for cards on the light surfaces. */
+@utility card-wash {
+  background: linear-gradient(160deg, #ffffff 0%, var(--color-brand-50) 55%, var(--color-mist) 100%);
+}
+
+@utility night-glow {
   background:
-    radial-gradient(60rem 40rem at 88% 4%, rgb(109 94 252 / 0.16), transparent 62%),
-    radial-gradient(48rem 34rem at 4% 46%, rgb(192 107 255 / 0.1), transparent 60%),
-    radial-gradient(44rem 30rem at 70% 98%, rgb(51 191 146 / 0.09), transparent 62%), var(--color-page);
-}
-
-@utility starfield {
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.7), transparent 60%),
-    radial-gradient(1px 1px at 68% 32%, rgb(220 214 255 / 0.6), transparent 60%),
-    radial-gradient(1.5px 1.5px at 38% 74%, rgb(255 255 255 / 0.5), transparent 60%),
-    radial-gradient(1px 1px at 84% 82%, rgb(180 168 255 / 0.6), transparent 60%),
-    radial-gradient(1px 1px at 52% 52%, rgb(255 255 255 / 0.35), transparent 60%),
-    radial-gradient(1.5px 1.5px at 24% 92%, rgb(101 214 176 / 0.5), transparent 60%);
-  background-size: 420px 420px;
+    radial-gradient(
+      48rem 30rem at 78% 30%,
+      color-mix(in oklab, var(--color-brand-500) 24%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      36rem 26rem at 10% 90%,
+      color-mix(in oklab, var(--color-bloom-500) 12%, transparent),
+      transparent 60%
+    ),
+    var(--color-night-950);
 }
 
 /* Entrance animation, applied once an element scrolls into view. Only hidden when
@@ -133,31 +189,106 @@
   animation: rise 0.8s var(--ease-out-soft) forwards;
 }
 
-@keyframes drift {
+/* ---------- Hero story ---------- */
+
+@keyframes story-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes scene-dash {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+@keyframes scene-bob {
   0%,
   100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(6px);
+    transform: translateY(-5px);
   }
 }
 
-@keyframes pulse-dot {
+@keyframes scene-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scene-blink {
   0%,
   100% {
-    opacity: 0.35;
+    opacity: 1;
   }
   50% {
-    opacity: 1;
+    opacity: 0.35;
   }
 }
 
-@keyframes flow {
-  from {
-    background-position: 0 0;
+.scene .actor,
+.scene .cam {
+  transform-origin: 0 0;
+  transition:
+    transform 1.25s var(--ease-out-soft),
+    opacity 0.9s var(--ease-out-soft);
+}
+
+.scene .link {
+  transition: opacity 0.35s ease-out;
+}
+
+.scene .link.is-on {
+  transition: opacity 0.7s ease-out 0.75s;
+}
+
+.scene .flow {
+  stroke-dasharray: 3 9;
+  animation: scene-dash 1.6s linear infinite;
+}
+
+.scene .bob {
+  animation: scene-bob 5s ease-in-out infinite;
+}
+
+.scene .spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: scene-spin 14s linear infinite;
+}
+
+.scene .blink {
+  animation: scene-blink 1.4s ease-in-out infinite;
+}
+
+.scene.is-paused *,
+.story.is-paused .story-fill {
+  animation-play-state: paused !important;
+}
+
+@media (max-width: 639px) {
+  .scene .detail {
+    display: none;
   }
-  to {
-    background-position: 200% 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene .actor,
+  .scene .cam,
+  .scene .link,
+  .scene .link.is-on {
+    transition: none;
+  }
+  .scene .flow,
+  .scene .bob,
+  .scene .spin,
+  .scene .blink {
+    animation: none;
   }
 }
