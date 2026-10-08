@@ -161,7 +161,7 @@ export function PlayPause({ playing, className = "h-4 w-4" }: IconProps & { play
   );
 }
 
-/** The VBloom mark: four violet petals around a mint centre. */
+/** The VBloom mark: four brand-coloured petals around a mint centre. */
 export function Logo({ className = "h-8 w-8" }: IconProps) {
   const id = useId();
   return (
@@ -196,11 +196,11 @@ export function Logo({ className = "h-8 w-8" }: IconProps) {
  */
 export function Rosette({
   name,
-  tone = "violet",
+  tone = "brand",
   className = "h-20 w-20",
 }: {
   name: IconName;
-  tone?: "violet" | "mint";
+  tone?: "brand" | "mint";
   className?: string;
 }) {
   const colors =

@@ -30,7 +30,7 @@ Port 3000 is **private** by default — only you can open the forwarded URL. To
 show the site to someone else, open the **Ports** tab, right-click port 3000 and
 set **Port Visibility → Public**, then share the URL.
 
-> A Codespace preview is a *development* URL: it sleeps when the Codespace
+> A Codespace preview is a _development_ URL: it sleeps when the Codespace
 > stops and the hostname changes when you rebuild. Use it for review and demos,
 > not as the company's live site — see **Going live** below.
 
@@ -43,14 +43,14 @@ npm ci
 npm run dev        # http://localhost:3000
 ```
 
-| Script | What it does |
-| --- | --- |
-| `npm run dev` | Dev server with hot reload |
-| `npm run build` | Production build |
-| `npm start` | Serve the production build |
-| `npm run lint` | ESLint |
-| `npm run typecheck` | TypeScript, no emit |
-| `npm run format` | Prettier (with Tailwind class sorting) |
+| Script              | What it does                           |
+| ------------------- | -------------------------------------- |
+| `npm run dev`       | Dev server with hot reload             |
+| `npm run build`     | Production build                       |
+| `npm start`         | Serve the production build             |
+| `npm run lint`      | ESLint                                 |
+| `npm run typecheck` | TypeScript, no emit                    |
+| `npm run format`    | Prettier (with Tailwind class sorting) |
 
 ---
 
@@ -82,7 +82,7 @@ quote — invented social proof is the fastest way to lose a prospect's trust.
   element sits in each chapter) is plain data in `scene.ts`.
 - Sections after the hero are in `src/components/sections/`.
 - Dark hero, About band and footer; light content sections. Tokens (night,
-  violet brand, bloom glow, mint, paper/ink) are in `src/app/globals.css`.
+  periwinkle brand, lavender glow, mint, paper/ink; the "Bliss" palette) are in `src/app/globals.css`.
 - The story can be paused or jumped to any chapter, and starts paused for visitors
   who prefer reduced motion.
 
@@ -106,11 +106,11 @@ The form then POSTs `FormData` to that URL and shows a success or error message.
 
 Three workflows are configured in `.github/workflows/`:
 
-| Workflow | Trigger | What it does |
-| --- | --- | --- |
-| `claude.yml` | `@claude` in an issue, PR or review comment | Claude picks up the thread, can push commits and open PRs |
-| `claude-code-review.yml` | Any opened/updated PR | Automatic code review with inline comments |
-| `ci.yml` | Every push and PR | Lint, typecheck and build |
+| Workflow                 | Trigger                                     | What it does                                              |
+| ------------------------ | ------------------------------------------- | --------------------------------------------------------- |
+| `claude.yml`             | `@claude` in an issue, PR or review comment | Claude picks up the thread, can push commits and open PRs |
+| `claude-code-review.yml` | Any opened/updated PR                       | Automatic code review with inline comments                |
+| `ci.yml`                 | Every push and PR                           | Lint, typecheck and build                                 |
 
 ### One-time setup
 
@@ -123,7 +123,7 @@ The Claude workflows need an API key:
 
 Until that secret exists the two Claude workflows will fail; `ci.yml` works
 without it. Also check **Settings → Actions → General → Workflow permissions**
-is set to *Read and write permissions* so the agent can push branches.
+is set to _Read and write permissions_ so the agent can push branches.
 
 Then just comment `@claude please add a careers section` on an issue.
 

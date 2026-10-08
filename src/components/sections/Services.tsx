@@ -15,7 +15,7 @@ export function Services() {
               <div className="flex items-start justify-between">
                 <Rosette
                   name={service.icon}
-                  tone={index % 2 ? "mint" : "violet"}
+                  tone={index % 2 ? "mint" : "brand"}
                   className="h-[4.5rem] w-[4.5rem]"
                 />
                 <span className="font-display text-brand-300 text-sm font-bold">{service.step}</span>

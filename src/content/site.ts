@@ -286,22 +286,22 @@ export const contact = {
   ],
 } as const;
 
-/** Palettes offered by the floating theme picker while the final look is chosen. */
+/** Palettes offered by the floating theme picker. The first, Bliss, is the default. */
 export const themes = {
   label: "Theme",
   hint: "Preview a colour theme",
   options: [
     {
+      id: "bliss",
+      name: "Bliss",
+      note: "Default · periwinkle and mint",
+      colors: ["#0b0c22", "#6466f1", "#9d8cff", "#2ee6b8"],
+    },
+    {
       id: "violet",
       name: "Violet Night",
       note: "The brief's palette",
       colors: ["#0b0912", "#7651d7", "#b069ff", "#45dcbc"],
-    },
-    {
-      id: "bliss",
-      name: "Bliss",
-      note: "Periwinkle and mint",
-      colors: ["#0b0c22", "#6466f1", "#9d8cff", "#2ee6b8"],
     },
     {
       id: "ocean",

@@ -76,7 +76,7 @@ export function AiSolutions() {
               <article className="card-wash shadow-soft h-full rounded-[1.75rem] border border-white p-7">
                 <Rosette
                   name={item.icon}
-                  tone={index === 1 || index === 2 ? "mint" : "violet"}
+                  tone={index === 1 || index === 2 ? "mint" : "brand"}
                   className="h-24 w-24"
                 />
                 <h3

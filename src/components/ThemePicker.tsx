@@ -13,13 +13,13 @@ function subscribeTheme(onChange: () => void) {
 
 function readTheme(): ThemeId {
   const current = document.documentElement.dataset.theme;
-  return (themes.options.find((option) => option.id === current)?.id ?? "violet") as ThemeId;
+  return (themes.options.find((option) => option.id === current)?.id ?? "bliss") as ThemeId;
 }
 
 /** A floating picker for previewing the colour themes. Remove it once a theme is chosen. */
 export function ThemePicker() {
   const [open, setOpen] = useState(false);
-  const theme = useSyncExternalStore(subscribeTheme, readTheme, () => "violet" as ThemeId);
+  const theme = useSyncExternalStore(subscribeTheme, readTheme, () => "bliss" as ThemeId);
   const panelRef = useRef<HTMLDivElement>(null);
   const active = themes.options.find((option) => option.id === theme)!;
 
@@ -44,7 +44,7 @@ export function ThemePicker() {
 
   const choose = (id: ThemeId) => {
     const root = document.documentElement;
-    if (id === "violet") root.removeAttribute("data-theme");
+    if (id === "bliss") root.removeAttribute("data-theme");
     else root.setAttribute("data-theme", id);
     try {
       localStorage.setItem(storageKey, id);
