@@ -5,10 +5,10 @@
    * Four base colours per theme; every shade below is derived from them, so a theme
    * (see [data-theme] further down) only has to set the bases.
    */
-  --color-night-950: #0b0912;
-  --color-brand-500: #7651d7;
-  --color-bloom-500: #b069ff;
-  --color-mint-400: #45dcbc;
+  --color-night-950: #0b0c22;
+  --color-brand-500: #6466f1;
+  --color-bloom-500: #9d8cff;
+  --color-mint-400: #2ee6b8;
 
   /* Near-black with a hint of the brand: the hero, About band and footer. */
   --color-night-900: color-mix(in oklab, var(--color-night-950) 95%, var(--color-brand-400));
@@ -60,18 +60,18 @@
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Themes on offer in the preview picker. "violet" is the brief's palette and the default. */
+/* Alternatives offered by the theme picker. "bliss" (the bases above) is the default. */
 [data-theme="ocean"] {
   --color-night-950: #060b17;
   --color-brand-500: #2f6bea;
   --color-bloom-500: #38bdf8;
   --color-mint-400: #34e0c2;
 }
-[data-theme="bliss"] {
-  --color-night-950: #0b0c22;
-  --color-brand-500: #6466f1;
-  --color-bloom-500: #9d8cff;
-  --color-mint-400: #2ee6b8;
+[data-theme="violet"] {
+  --color-night-950: #0b0912;
+  --color-brand-500: #7651d7;
+  --color-bloom-500: #b069ff;
+  --color-mint-400: #45dcbc;
 }
 [data-theme="emerald"] {
   --color-night-950: #06100d;
