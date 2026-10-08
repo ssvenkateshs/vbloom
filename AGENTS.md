@@ -11,18 +11,23 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # VBloom site conventions
 
 - **All site copy lives in `src/content/site.ts`.** Change wording there, not in
-  components, and not inside the 3D scenes (their in-world labels are the only
-  exception and come from the design brief).
-- The site is **dark-only** (neon night). Design tokens live in
-  `src/app/globals.css`; use the generated utilities (`bg-brand-500`,
-  `text-text-muted`, `bg-space-950`, `text-bloom-300`, …) rather than hex values.
-- `src/world/` is framework-agnostic Three.js. Keep React out of it; the
-  `Experience` component is the only bridge. `src/world/layout.ts` must stay free
-  of three.js so the copy panels and timeline work without WebGL.
-- Every 3D effect needs a quiet path: honour `reducedMotion` (cut, don't fly),
-  keep the no-WebGL fallback readable, and never block content on the canvas.
+  components. That includes the labels drawn inside the hero scene (`sceneLabels`).
+- **Two surfaces, one palette.** The hero, About band and footer are near-black
+  (`night-*`); everything else is light (`paper`, `mist`, `ink-*`). Violet
+  (`brand-*`) is the accent, `bloom-*` the glow, `mint-*` a sparing positive accent.
+  Tokens live in `src/app/globals.css`; use the generated utilities, not hex values.
+  The intended feel is roughly 65% enterprise consultancy, 25% digital agency,
+  10% futuristic AI: keep motion confined to the hero.
+- The hero story is data-driven: `src/components/hero/scene.ts` holds every
+  actor's pose per chapter (no React, no DOM), `StoryScene.tsx` renders it, and CSS
+  transitions do the in-betweening. Add or move things by editing poses, not by
+  adding timers.
+- Every motion needs a quiet path: the story pauses for reduced motion, off-screen
+  and hidden tabs; the pause button must stop all movement; the copy is real HTML
+  and the scene stays `aria-hidden`.
 - Do not add client logos, testimonials, case studies, named clients, employee
   counts, years in business, metrics or any other factual claim about the company
   unless a maintainer supplied it. VBloom is newly registered; invented social
-  proof is not acceptable. Scenarios must stay labelled as illustrative.
+  proof is not acceptable. Mock interfaces must stay labelled as illustrative, and
+  Insights cards stay "Coming soon" until real articles exist.
 - Before pushing: `npm run lint`, `npm run typecheck`, `npm run build`.

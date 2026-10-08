@@ -1,9 +1,9 @@
 # VBloom website
 
-Marketing site for **VBloom**, an AI and digital transformation company: an
-immersive scroll-driven 3D journey (Three.js) followed by the business sections.
-Built with Next.js 16 (App Router), TypeScript, Tailwind CSS 4 and Three.js.
-See `CLAUDE.md` for how the 3D world is put together.
+Marketing site for **VBloom**, a technology services and digital transformation
+company: a 30-second visual story in the hero, followed by a clean corporate site
+(services, AI, industries, about, insights, contact). Built with Next.js 16 (App
+Router), TypeScript and Tailwind CSS 4. See `CLAUDE.md` for how the hero story works.
 
 ---
 
@@ -57,9 +57,9 @@ npm run dev        # http://localhost:3000
 ## Editing the content
 
 **All copy lives in [`src/content/site.ts`](src/content/site.ts).** Company
-details, nav links, hero text, the six services, the delivery approach, the
-differentiators, industries, the about text and the contact options are plain
-objects there — change them and the page updates. You should not need to touch a
+details, nav links, the six story chapters and the labels inside the hero scene,
+services, AI capabilities, industries, about, insights and the contact options are
+plain objects there — change them and the page updates. You should not need to touch a
 component to change wording.
 
 ### Replace these placeholders before launch
@@ -72,22 +72,19 @@ In `src/content/site.ts`, the `company` object still holds stand-in values:
 - `legalName` — set this to your registered entity name
 - `social.linkedin` — your actual company page
 
-The AI product's name and description come from the design brief (`product` in
-`site.ts`) and need confirming.
-
 There are deliberately **no client logos, testimonials or metrics** on the site. Add them
 to `site.ts` and render a section once you have real ones you are permitted to
 quote — invented social proof is the fastest way to lose a prospect's trust.
 
 ### Layout and design
 
-- The 3D journey lives in `src/world/` (one file per scene in `src/world/scenes/`);
-  the DOM layer is `src/components/experience/Experience.tsx`.
-- Sections after the journey are in `src/components/sections/`.
-- The site is dark-only. Tokens (violet brand, plasma, bloom teal, space blacks)
-  are in `src/app/globals.css`.
-- Visitors without WebGL, or with reduced motion, get a readable fallback: the same
-  copy and timeline, with a still render of the robot or cuts instead of flight.
+- The hero story is in `src/components/hero/`; the choreography (where every
+  element sits in each chapter) is plain data in `scene.ts`.
+- Sections after the hero are in `src/components/sections/`.
+- Dark hero, About band and footer; light content sections. Tokens (night,
+  violet brand, bloom glow, mint, paper/ink) are in `src/app/globals.css`.
+- The story can be paused or jumped to any chapter, and starts paused for visitors
+  who prefer reduced motion.
 
 ---
 

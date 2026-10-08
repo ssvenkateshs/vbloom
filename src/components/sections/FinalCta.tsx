@@ -1,29 +1,35 @@
+import { ArrowRight } from "@/components/Icons";
+import { Reveal } from "@/components/Reveal";
 import { finalCta } from "@/content/site";
-import { ArrowRight } from "../Icons";
-import { Reveal } from "../Reveal";
 
-/** Doc section 10: the full-screen ending. */
 export function FinalCta() {
   return (
-    <section className="relative overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute bottom-[-30rem] left-1/2 h-[52rem] w-[52rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgb(51_191_146/0.22),rgb(109_94_252/0.12)_45%,transparent_70%)]" />
-      </div>
-      <Reveal className="relative mx-auto max-w-4xl px-5 py-28 text-center sm:px-8 sm:py-36">
-        <h2 className="font-display text-4xl leading-[1.05] font-semibold tracking-tight text-white sm:text-6xl">
-          {finalCta.titleLead} <span className="text-gradient">{finalCta.titleAccent}</span>{" "}
-          {finalCta.titleTail}
-        </h2>
-        <p className="text-text-muted mx-auto mt-6 max-w-2xl text-lg leading-relaxed">{finalCta.subhead}</p>
-        <a
-          href={finalCta.cta.href}
-          className="group text-space-950 hover:bg-bloom-300 mt-10 inline-flex items-center gap-3 rounded-full bg-white py-2.5 pr-2.5 pl-7 text-base font-semibold transition"
+    <section className="px-5 pb-8 sm:px-8">
+      <Reveal className="from-brand-600 via-brand-500 to-bloom-500 relative mx-auto max-w-7xl overflow-hidden rounded-[2.25rem] bg-gradient-to-br px-6 py-16 text-center text-white sm:px-12 sm:py-24">
+        <svg
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-40 w-full"
+          viewBox="0 0 1200 160"
+          preserveAspectRatio="none"
         >
-          {finalCta.cta.label}
-          <span className="bg-bloom-500 grid h-10 w-10 place-items-center rounded-full text-white transition-transform group-hover:translate-x-0.5">
-            <ArrowRight className="h-4 w-4" />
-          </span>
-        </a>
+          <path d="M0 80C200 30 400 30 600 70s400 60 600 0v90H0Z" fill="#fff" fillOpacity="0.08" />
+          <path d="M0 110C240 70 480 80 720 105s340 30 480-10v65H0Z" fill="#fff" fillOpacity="0.08" />
+        </svg>
+        <div aria-hidden="true" className="absolute -top-24 -right-16 h-72 w-72 rounded-full bg-white/10" />
+        <div className="relative">
+          <p className="text-sm font-semibold tracking-wide text-white/80">{finalCta.eyebrow}</p>
+          <h2 className="font-display mx-auto mt-4 max-w-3xl text-3xl leading-tight font-extrabold tracking-tight text-balance sm:text-5xl">
+            {finalCta.title}
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-lg text-white/85">{finalCta.body}</p>
+          <a
+            href={finalCta.cta.href}
+            className="group text-brand-600 shadow-brand-900/20 hover:bg-brand-50 mt-9 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold shadow-xl transition"
+          >
+            {finalCta.cta.label}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </a>
+        </div>
       </Reveal>
     </section>
   );

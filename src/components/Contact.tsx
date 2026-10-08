@@ -10,7 +10,7 @@ type Status = "idle" | "sending" | "sent" | "error";
 const endpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;
 
 const fieldClass =
-  "w-full rounded-xl border border-white/10 bg-space-900/80 px-4 py-3 text-sm text-white transition placeholder:text-text-faint focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/25";
+  "w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink transition placeholder:text-ink-faint focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20";
 
 export function Contact() {
   const [status, setStatus] = useState<Status>("idle");
@@ -60,38 +60,34 @@ export function Contact() {
 
   return (
     <section id="contact" className="relative overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="bg-brand-500/10 absolute bottom-0 left-1/2 h-[28rem] w-[64rem] -translate-x-1/2 rounded-full blur-3xl" />
-      </div>
-
-      <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-28">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal>
-            <p className="font-tech text-brand-300 flex items-center gap-3 text-[0.68rem] tracking-[0.3em] uppercase">
-              <span className="bg-brand-400 h-px w-8" />
-              Contact
+            <p className="text-brand-500 flex items-center gap-3 text-sm font-semibold">
+              <span className="bg-brand-300 h-px w-8" />
+              {contact.eyebrow}
             </p>
-            <h2 className="font-display mt-5 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+            <h2 className="font-display text-ink mt-4 text-3xl font-extrabold tracking-tight sm:text-[2.8rem]">
               {contact.title}
             </h2>
-            <p className="text-text-muted mt-4 text-lg leading-relaxed">{contact.intro}</p>
+            <p className="text-ink-muted mt-5 text-lg leading-relaxed">{contact.intro}</p>
 
             <dl className="mt-10 space-y-5 text-sm">
               <div>
-                <dt className="text-text-faint font-semibold">Email</dt>
+                <dt className="text-ink-faint font-semibold">Email</dt>
                 <dd className="mt-1">
-                  <a href={`mailto:${company.email}`} className="text-brand-300 font-medium hover:underline">
+                  <a href={`mailto:${company.email}`} className="text-brand-500 font-medium hover:underline">
                     {company.email}
                   </a>
                 </dd>
               </div>
               <div>
-                <dt className="text-text-faint font-semibold">Phone</dt>
-                <dd className="mt-1 font-medium text-white">{company.phone}</dd>
+                <dt className="text-ink-faint font-semibold">Phone</dt>
+                <dd className="text-ink mt-1 font-medium">{company.phone}</dd>
               </div>
               <div>
-                <dt className="text-text-faint font-semibold">Location</dt>
-                <dd className="mt-1 font-medium text-white">{company.location}</dd>
+                <dt className="text-ink-faint font-semibold">Location</dt>
+                <dd className="text-ink mt-1 font-medium">{company.location}</dd>
               </div>
             </dl>
           </Reveal>
@@ -99,12 +95,12 @@ export function Contact() {
           <Reveal delay={120}>
             <form
               onSubmit={handleSubmit}
-              className="glass rounded-[2rem] p-6 shadow-2xl shadow-black/40 sm:p-9"
+              className="card-wash border-line shadow-lift rounded-[2rem] border p-6 sm:p-9"
             >
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="text-text-muted block text-sm font-medium">
-                    Name <span className="text-brand-300">*</span>
+                  <label htmlFor="name" className="text-ink-muted block text-sm font-medium">
+                    Name <span className="text-brand-500">*</span>
                   </label>
                   <input
                     id="name"
@@ -117,7 +113,7 @@ export function Contact() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="company" className="text-text-muted block text-sm font-medium">
+                  <label htmlFor="company" className="text-ink-muted block text-sm font-medium">
                     Company
                   </label>
                   <input
@@ -133,8 +129,8 @@ export function Contact() {
 
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="email" className="text-text-muted block text-sm font-medium">
-                    Work email <span className="text-brand-300">*</span>
+                  <label htmlFor="email" className="text-ink-muted block text-sm font-medium">
+                    Work email <span className="text-brand-500">*</span>
                   </label>
                   <input
                     id="email"
@@ -147,7 +143,7 @@ export function Contact() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="service" className="text-text-muted block text-sm font-medium">
+                  <label htmlFor="service" className="text-ink-muted block text-sm font-medium">
                     What do you need help with?
                   </label>
                   <select
@@ -166,8 +162,8 @@ export function Contact() {
               </div>
 
               <div className="mt-5">
-                <label htmlFor="message" className="text-text-muted block text-sm font-medium">
-                  Project details <span className="text-brand-300">*</span>
+                <label htmlFor="message" className="text-ink-muted block text-sm font-medium">
+                  Project details <span className="text-brand-500">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -182,7 +178,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="group text-space-950 hover:bg-brand-200 mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
+                className="group bg-brand-500 hover:bg-brand-600 mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {status === "sending" ? "Sending…" : "Send enquiry"}
                 {status !== "sending" && (
@@ -192,14 +188,14 @@ export function Contact() {
 
               <p aria-live="polite" className="mt-4 min-h-5 text-center text-sm">
                 {status === "sent" && (
-                  <span className="text-bloom-300 font-medium">
+                  <span className="text-mint-600 font-medium">
                     {endpoint
                       ? "Thank you — we will reply within one business day."
                       : "Your email client should now be open with the enquiry ready to send."}
                   </span>
                 )}
                 {status === "error" && (
-                  <span className="text-signal-red font-medium">
+                  <span className="font-medium text-red-600">
                     We could not send that ({error}). Please email {company.email} directly.
                   </span>
                 )}

@@ -1,66 +1,75 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand violet: the AI glow. */
-  --color-brand-200: #d4ceff;
-  --color-brand-300: #b4a8ff;
-  --color-brand-400: #8b7cff;
-  --color-brand-500: #6d5efc;
-  --color-brand-600: #5546e0;
-  --color-brand-700: #4033b8;
+  /* Near-black with a purple character: the hero, About band and footer. */
+  --color-night-950: #0b0912;
+  --color-night-900: #110e1c;
+  --color-night-800: #191427;
+  --color-night-700: #241d38;
+  --color-night-600: #332a4f;
 
-  --color-plasma-400: #d08cff;
-  --color-plasma-500: #c06bff;
+  /* Premium violet: the primary accent. */
+  --color-brand-50: #f5f1ff;
+  --color-brand-100: #ebe3ff;
+  --color-brand-200: #d6c8ff;
+  --color-brand-300: #bba6f7;
+  --color-brand-400: #9b7ff0;
+  --color-brand-500: #7651d7;
+  --color-brand-600: #6340c4;
+  --color-brand-700: #5032a2;
 
-  /* Bloom teal: growth, the payoff colour. */
-  --color-bloom-300: #65d6b0;
-  --color-bloom-400: #33bf92;
-  --color-bloom-500: #12a37a;
+  /* Secondary glow. */
+  --color-bloom-300: #d6b2ff;
+  --color-bloom-400: #c48cff;
+  --color-bloom-500: #b069ff;
 
-  --color-signal-cyan: #4cc9ff;
-  --color-signal-red: #ff4d6d;
+  /* Fresh mint: connections that work, small positive details. */
+  --color-mint-300: #8ff0da;
+  --color-mint-400: #45dcbc;
+  --color-mint-500: #15bf9c;
+  --color-mint-600: #0d9b80;
 
-  --color-space-950: #02030a;
-  --color-space-900: #05060f;
-  --color-space-800: #0a0b1e;
-  --color-space-700: #11122b;
-  --color-space-600: #1b1c44;
+  /* Light content surfaces. */
+  --color-paper: #fbfbfd;
+  --color-mist: #f4f1fc;
+  --color-line: #e8e4f2;
+  --color-ink: #17132b;
+  --color-ink-muted: #5d5873;
+  --color-ink-faint: #8a85a0;
 
-  --color-page: #02030a;
-  --color-text: #eef0ff;
-  --color-text-muted: #a9adcf;
-  --color-text-faint: #6f7396;
-  --color-card: rgb(255 255 255 / 0.035);
-  --color-card-border: rgb(255 255 255 / 0.09);
+  /* Text on dark surfaces. */
+  --color-on-dark: #f3f0fb;
+  --color-on-dark-muted: #aba5c3;
+  --color-on-dark-faint: #7a7494;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-tech: var(--font-orbitron), var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 24px 60px -28px rgb(80 50 162 / 0.28), 0 2px 6px -2px rgb(80 50 162 / 0.08);
+  --shadow-lift: 0 34px 70px -30px rgb(80 50 162 / 0.38), 0 4px 10px -4px rgb(80 50 162 / 0.12);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   html {
-    color-scheme: dark;
-    background: var(--color-page);
+    background: var(--color-paper);
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5.5rem;
   }
 
   body {
-    background: var(--color-page);
-    color: var(--color-text);
+    background: var(--color-paper);
+    color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background: rgb(139 124 255 / 0.45);
-    color: #fff;
+    background: rgb(118 81 215 / 0.3);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand-300);
+    outline: 2px solid var(--color-brand-400);
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -80,36 +89,28 @@
 }
 
 @utility text-gradient {
-  background-image: linear-gradient(100deg, #c9c1ff, #b4a8ff 25%, #c06bff 55%, #65d6b0);
+  background-image: linear-gradient(100deg, var(--color-brand-500), var(--color-bloom-500) 70%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
 
-@utility glass {
-  background: rgb(10 11 30 / 0.55);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgb(255 255 255 / 0.09);
+@utility text-gradient-light {
+  background-image: linear-gradient(100deg, #e9e0ff, var(--color-bloom-300) 50%, var(--color-mint-300));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-/* Deep-space backdrop for the content after the 3D journey. */
-@utility space-bg {
+/* Soft lavender wash for cards on the light surfaces. */
+@utility card-wash {
+  background: linear-gradient(160deg, #ffffff 0%, #fbf9ff 45%, #f3effd 100%);
+}
+
+@utility night-glow {
   background:
-    radial-gradient(60rem 40rem at 88% 4%, rgb(109 94 252 / 0.16), transparent 62%),
-    radial-gradient(48rem 34rem at 4% 46%, rgb(192 107 255 / 0.1), transparent 60%),
-    radial-gradient(44rem 30rem at 70% 98%, rgb(51 191 146 / 0.09), transparent 62%), var(--color-page);
-}
-
-@utility starfield {
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.7), transparent 60%),
-    radial-gradient(1px 1px at 68% 32%, rgb(220 214 255 / 0.6), transparent 60%),
-    radial-gradient(1.5px 1.5px at 38% 74%, rgb(255 255 255 / 0.5), transparent 60%),
-    radial-gradient(1px 1px at 84% 82%, rgb(180 168 255 / 0.6), transparent 60%),
-    radial-gradient(1px 1px at 52% 52%, rgb(255 255 255 / 0.35), transparent 60%),
-    radial-gradient(1.5px 1.5px at 24% 92%, rgb(101 214 176 / 0.5), transparent 60%);
-  background-size: 420px 420px;
+    radial-gradient(48rem 30rem at 78% 30%, rgb(118 81 215 / 0.24), transparent 65%),
+    radial-gradient(36rem 26rem at 10% 90%, rgb(176 105 255 / 0.12), transparent 60%), var(--color-night-950);
 }
 
 /* Entrance animation, applied once an element scrolls into view. Only hidden when
@@ -133,31 +134,106 @@
   animation: rise 0.8s var(--ease-out-soft) forwards;
 }
 
-@keyframes drift {
+/* ---------- Hero story ---------- */
+
+@keyframes story-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes scene-dash {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+@keyframes scene-bob {
   0%,
   100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(6px);
+    transform: translateY(-5px);
   }
 }
 
-@keyframes pulse-dot {
+@keyframes scene-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scene-blink {
   0%,
   100% {
-    opacity: 0.35;
+    opacity: 1;
   }
   50% {
-    opacity: 1;
+    opacity: 0.35;
   }
 }
 
-@keyframes flow {
-  from {
-    background-position: 0 0;
+.scene .actor,
+.scene .cam {
+  transform-origin: 0 0;
+  transition:
+    transform 1.25s var(--ease-out-soft),
+    opacity 0.9s var(--ease-out-soft);
+}
+
+.scene .link {
+  transition: opacity 0.35s ease-out;
+}
+
+.scene .link.is-on {
+  transition: opacity 0.7s ease-out 0.75s;
+}
+
+.scene .flow {
+  stroke-dasharray: 3 9;
+  animation: scene-dash 1.6s linear infinite;
+}
+
+.scene .bob {
+  animation: scene-bob 5s ease-in-out infinite;
+}
+
+.scene .spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: scene-spin 14s linear infinite;
+}
+
+.scene .blink {
+  animation: scene-blink 1.4s ease-in-out infinite;
+}
+
+.scene.is-paused *,
+.story.is-paused .story-fill {
+  animation-play-state: paused !important;
+}
+
+@media (max-width: 639px) {
+  .scene .detail {
+    display: none;
   }
-  to {
-    background-position: 200% 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene .actor,
+  .scene .cam,
+  .scene .link,
+  .scene .link.is-on {
+    transition: none;
+  }
+  .scene .flow,
+  .scene .bob,
+  .scene .spin,
+  .scene .blink {
+    animation: none;
   }
 }

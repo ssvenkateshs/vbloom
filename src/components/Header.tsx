@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { company, navLinks } from "@/content/site";
-import { ArrowRight, Logo } from "./Icons";
+import { company, headerCta, navLinks } from "@/content/site";
+import { Logo } from "./Icons";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,23 +16,19 @@ export function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 pt-4 sm:px-8">
-        <a
-          href="#experience"
-          className="glass flex items-center gap-2.5 rounded-full py-1.5 pr-5 pl-1.5"
-          aria-label={`${company.name} home`}
-        >
-          <Logo className="h-8 w-8 shrink-0" />
-          <span className="font-tech text-sm font-semibold tracking-[0.22em] text-white">VBLOOM</span>
+    <header className="bg-night-950/85 fixed inset-x-0 top-0 z-50 border-b border-white/[0.07] backdrop-blur-xl">
+      <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
+        <a href="#top" className="flex items-center gap-2.5" aria-label={`${company.name} home`}>
+          <Logo className="h-8 w-8" />
+          <span className="font-display text-xl font-bold tracking-tight text-white">{company.name}</span>
         </a>
 
-        <nav aria-label="Main" className="glass hidden items-center gap-1 rounded-full p-1.5 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-text-muted rounded-full px-4 py-2 text-sm font-medium transition hover:bg-white/8 hover:text-white"
+              className="text-on-dark-muted rounded-full px-4 py-2 text-sm font-medium transition hover:text-white"
             >
               {link.label}
             </a>
@@ -41,13 +37,10 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <a
-            href="#contact"
-            className="group text-space-950 hover:bg-brand-200 hidden items-center gap-2.5 rounded-full bg-white py-1.5 pr-1.5 pl-5 text-sm font-semibold transition sm:inline-flex"
+            href={headerCta.href}
+            className="border-brand-400/50 hover:border-brand-300 hover:bg-brand-500/15 hidden rounded-full border px-5 py-2 text-sm font-semibold text-white transition sm:inline-flex"
           >
-            Start your transformation
-            <span className="bg-brand-500 grid h-8 w-8 place-items-center rounded-full text-white transition-transform group-hover:translate-x-0.5">
-              <ArrowRight className="h-4 w-4" />
-            </span>
+            {headerCta.label}
           </a>
           <button
             type="button"
@@ -55,7 +48,7 @@ export function Header() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="glass grid h-11 w-11 place-items-center rounded-full text-white lg:hidden"
+            className="grid h-11 w-11 place-items-center rounded-full text-white hover:bg-white/5 lg:hidden"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               {menuOpen ? (
@@ -74,23 +67,27 @@ export function Header() {
       </div>
 
       {menuOpen && (
-        <nav id="mobile-menu" aria-label="Mobile" className="glass mx-4 mt-3 rounded-3xl p-3 lg:hidden">
+        <nav
+          id="mobile-menu"
+          aria-label="Mobile"
+          className="border-t border-white/[0.07] px-5 pt-2 pb-6 lg:hidden"
+        >
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="block rounded-2xl px-4 py-3.5 text-base font-medium text-white hover:bg-white/5"
+              className="block rounded-xl px-3 py-3.5 text-base font-medium text-white hover:bg-white/5"
             >
               {link.label}
             </a>
           ))}
           <a
-            href="#contact"
+            href={headerCta.href}
             onClick={() => setMenuOpen(false)}
-            className="text-space-950 mt-2 block rounded-full bg-white px-5 py-3.5 text-center text-sm font-semibold"
+            className="bg-brand-500 mt-3 block rounded-full px-5 py-3.5 text-center text-sm font-semibold text-white"
           >
-            Start your transformation
+            {headerCta.label}
           </a>
         </nav>
       )}

@@ -29,8 +29,8 @@ jobs:
 
             Review this pull request to the VBloom marketing site. Focus on:
             - Correctness and accessibility of the React components
-            - Responsive layout of the dark-only theme, and the 3D world's
-              quiet paths (reduced motion, no-WebGL fallback, mobile)
+            - Responsive layout of the dark hero and light content sections, and
+              the hero story's quiet paths (pause control, reduced motion, mobile)
             - Content accuracy: flag any claim about the company that is not
               backed by something the maintainers supplied
             Leave inline comments only where there is a concrete problem.
