@@ -202,8 +202,12 @@ export function Hero() {
         viewBox="0 0 1440 120"
         preserveAspectRatio="none"
       >
-        <path d="M0 64C220 18 420 18 640 52s440 70 800 6v62H0Z" fill="#7651d7" fillOpacity="0.35" />
-        <path d="M0 84C260 40 480 46 720 74s460 44 720-6v52H0Z" fill="#fbfbfd" />
+        <path
+          style={{ fill: "var(--color-brand-500)" }}
+          d="M0 64C220 18 420 18 640 52s440 70 800 6v62H0Z"
+          fillOpacity="0.35"
+        />
+        <path style={{ fill: "var(--color-paper)" }} d="M0 84C260 40 480 46 720 74s460 44 720-6v52H0Z" />
       </svg>
     </section>
   );

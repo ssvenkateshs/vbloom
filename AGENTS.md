@@ -15,7 +15,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Two surfaces, one palette.** The hero, About band and footer are near-black
   (`night-*`); everything else is light (`paper`, `mist`, `ink-*`). Violet
   (`brand-*`) is the accent, `bloom-*` the glow, `mint-*` a sparing positive accent.
-  Tokens live in `src/app/globals.css`; use the generated utilities, not hex values.
+  Tokens live in `src/app/globals.css` and derive from four theme bases; use the
+  generated utilities (or `var(--color-…)` inside SVG styles), not hex values.
   The intended feel is roughly 65% enterprise consultancy, 25% digital agency,
   10% futuristic AI: keep motion confined to the hero.
 - The hero story is data-driven: `src/components/hero/scene.ts` holds every

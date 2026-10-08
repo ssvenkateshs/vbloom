@@ -285,3 +285,49 @@ export const contact = {
     "Something else",
   ],
 } as const;
+
+/** Palettes offered by the floating theme picker while the final look is chosen. */
+export const themes = {
+  label: "Theme",
+  hint: "Preview a colour theme",
+  options: [
+    {
+      id: "violet",
+      name: "Violet Night",
+      note: "The brief's palette",
+      colors: ["#0b0912", "#7651d7", "#b069ff", "#45dcbc"],
+    },
+    {
+      id: "bliss",
+      name: "Bliss",
+      note: "Periwinkle and mint",
+      colors: ["#0b0c22", "#6466f1", "#9d8cff", "#2ee6b8"],
+    },
+    {
+      id: "ocean",
+      name: "Ocean",
+      note: "Enterprise blue",
+      colors: ["#060b17", "#2f6bea", "#38bdf8", "#34e0c2"],
+    },
+    {
+      id: "graphite",
+      name: "Graphite",
+      note: "Quiet and corporate",
+      colors: ["#0a0c11", "#3b5bdb", "#8aa2ff", "#63e6be"],
+    },
+    {
+      id: "emerald",
+      name: "Emerald",
+      note: "Growth green",
+      colors: ["#06100d", "#0c9a72", "#3ad29f", "#7dd3fc"],
+    },
+    {
+      id: "sunset",
+      name: "Sunset",
+      note: "Warm and bold",
+      colors: ["#12080e", "#d9466c", "#ff8a5b", "#ffc857"],
+    },
+  ],
+} as const;
+
+export type ThemeId = (typeof themes.options)[number]["id"];

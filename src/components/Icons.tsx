@@ -106,9 +106,10 @@ export function Icon({ name, className = "h-6 w-6" }: { name: IconName; classNam
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       {iconPaths[name].map((d) => (
         <path
+          style={{ stroke: "currentColor" }}
           key={d}
           d={d}
-          stroke="currentColor"
+
           strokeWidth="1.6"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -122,8 +123,9 @@ export function ArrowRight({ className = "h-4 w-4" }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
+        style={{ stroke: "currentColor" }}
         d="M5 12h14m-5.5-6 6 6-6 6"
-        stroke="currentColor"
+
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -136,8 +138,9 @@ export function Check({ className = "h-4 w-4" }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
+        style={{ stroke: "currentColor" }}
         d="m5 12.5 4.2 4L19 7"
-        stroke="currentColor"
+
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -165,23 +168,24 @@ export function Logo({ className = "h-8 w-8" }: IconProps) {
     <svg className={className} viewBox="0 0 32 32" aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-p`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#b069ff" />
-          <stop offset="1" stopColor="#6340c4" />
+          <stop style={{ stopColor: "var(--color-bloom-500)" }} offset="0" />
+          <stop style={{ stopColor: "var(--color-brand-600)" }} offset="1" />
         </linearGradient>
       </defs>
       {[0, 90, 180, 270].map((angle) => (
         <ellipse
+          style={{ fill: `url(#${id}-p)` }}
           key={angle}
           cx="16"
           cy="9.4"
           rx="5"
           ry="7.4"
-          fill={`url(#${id}-p)`}
+
           opacity="0.82"
           transform={`rotate(${angle + 45} 16 16)`}
         />
       ))}
-      <circle cx="16" cy="16" r="3.3" fill="#45dcbc" />
+      <circle style={{ fill: "var(--color-mint-400)" }} cx="16" cy="16" r="3.3" />
     </svg>
   );
 }
@@ -199,7 +203,10 @@ export function Rosette({
   tone?: "violet" | "mint";
   className?: string;
 }) {
-  const colors = tone === "mint" ? ["#45dcbc", "#15bf9c"] : ["#b069ff", "#7651d7"];
+  const colors =
+    tone === "mint"
+      ? ["var(--color-mint-400)", "var(--color-mint-500)"]
+      : ["var(--color-bloom-500)", "var(--color-brand-500)"];
   const offsets = [
     [-5, -4],
     [5, -5],
@@ -210,9 +217,16 @@ export function Rosette({
     <span className={`relative inline-grid shrink-0 place-items-center ${className}`}>
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 80 80" aria-hidden="true">
         {offsets.map(([dx, dy], index) => (
-          <circle key={index} cx={40 + dx} cy={40 + dy} r="27" fill={colors[index % 2]} opacity="0.22" />
+          <circle
+            style={{ fill: colors[index % 2] }}
+            key={index}
+            cx={40 + dx}
+            cy={40 + dy}
+            r="27"
+            opacity="0.22"
+          />
         ))}
-        <circle cx="40" cy="40" r="21" fill={colors[1]} />
+        <circle style={{ fill: colors[1] }} cx="40" cy="40" r="21" />
       </svg>
       <Icon name={name} className="relative h-[34%] w-[34%] text-white" />
     </span>

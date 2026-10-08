@@ -1,39 +1,44 @@
 @import "tailwindcss";
 
-@theme {
-  /* Near-black with a purple character: the hero, About band and footer. */
+@theme static {
+  /*
+   * Four base colours per theme; every shade below is derived from them, so a theme
+   * (see [data-theme] further down) only has to set the bases.
+   */
   --color-night-950: #0b0912;
-  --color-night-900: #110e1c;
-  --color-night-800: #191427;
-  --color-night-700: #241d38;
-  --color-night-600: #332a4f;
-
-  /* Premium violet: the primary accent. */
-  --color-brand-50: #f5f1ff;
-  --color-brand-100: #ebe3ff;
-  --color-brand-200: #d6c8ff;
-  --color-brand-300: #bba6f7;
-  --color-brand-400: #9b7ff0;
   --color-brand-500: #7651d7;
-  --color-brand-600: #6340c4;
-  --color-brand-700: #5032a2;
+  --color-bloom-500: #b069ff;
+  --color-mint-400: #45dcbc;
+
+  /* Near-black with a hint of the brand: the hero, About band and footer. */
+  --color-night-900: color-mix(in oklab, var(--color-night-950) 95%, var(--color-brand-400));
+  --color-night-800: color-mix(in oklab, var(--color-night-950) 89%, var(--color-brand-400));
+  --color-night-700: color-mix(in oklab, var(--color-night-950) 81%, var(--color-brand-400));
+  --color-night-600: color-mix(in oklab, var(--color-night-950) 70%, var(--color-brand-400));
+
+  /* Brand: the primary accent. */
+  --color-brand-50: color-mix(in oklab, var(--color-brand-500) 6%, white);
+  --color-brand-100: color-mix(in oklab, var(--color-brand-500) 13%, white);
+  --color-brand-200: color-mix(in oklab, var(--color-brand-500) 28%, white);
+  --color-brand-300: color-mix(in oklab, var(--color-brand-500) 50%, white);
+  --color-brand-400: color-mix(in oklab, var(--color-brand-500) 76%, white);
+  --color-brand-600: color-mix(in oklab, var(--color-brand-500) 86%, black);
+  --color-brand-700: color-mix(in oklab, var(--color-brand-500) 70%, black);
 
   /* Secondary glow. */
-  --color-bloom-300: #d6b2ff;
-  --color-bloom-400: #c48cff;
-  --color-bloom-500: #b069ff;
+  --color-bloom-300: color-mix(in oklab, var(--color-bloom-500) 50%, white);
+  --color-bloom-400: color-mix(in oklab, var(--color-bloom-500) 76%, white);
 
-  /* Fresh mint: connections that work, small positive details. */
-  --color-mint-300: #8ff0da;
-  --color-mint-400: #45dcbc;
-  --color-mint-500: #15bf9c;
-  --color-mint-600: #0d9b80;
+  /* Fresh accent: connections that work, small positive details. */
+  --color-mint-300: color-mix(in oklab, var(--color-mint-400) 62%, white);
+  --color-mint-500: color-mix(in oklab, var(--color-mint-400) 86%, black);
+  --color-mint-600: color-mix(in oklab, var(--color-mint-400) 66%, black);
 
   /* Light content surfaces. */
   --color-paper: #fbfbfd;
-  --color-mist: #f4f1fc;
-  --color-line: #e8e4f2;
-  --color-ink: #17132b;
+  --color-mist: color-mix(in oklab, var(--color-brand-500) 6%, #fbfbfd);
+  --color-line: color-mix(in oklab, var(--color-brand-500) 10%, #f1f0f4);
+  --color-ink: color-mix(in oklab, var(--color-night-950) 88%, var(--color-brand-500));
   --color-ink-muted: #5d5873;
   --color-ink-faint: #8a85a0;
 
@@ -45,10 +50,46 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-manrope), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  --shadow-soft: 0 24px 60px -28px rgb(80 50 162 / 0.28), 0 2px 6px -2px rgb(80 50 162 / 0.08);
-  --shadow-lift: 0 34px 70px -30px rgb(80 50 162 / 0.38), 0 4px 10px -4px rgb(80 50 162 / 0.12);
+  --shadow-soft:
+    0 24px 60px -28px color-mix(in oklab, var(--color-brand-700) 30%, transparent),
+    0 2px 6px -2px color-mix(in oklab, var(--color-brand-700) 8%, transparent);
+  --shadow-lift:
+    0 34px 70px -30px color-mix(in oklab, var(--color-brand-700) 40%, transparent),
+    0 4px 10px -4px color-mix(in oklab, var(--color-brand-700) 12%, transparent);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Themes on offer in the preview picker. "violet" is the brief's palette and the default. */
+[data-theme="ocean"] {
+  --color-night-950: #060b17;
+  --color-brand-500: #2f6bea;
+  --color-bloom-500: #38bdf8;
+  --color-mint-400: #34e0c2;
+}
+[data-theme="bliss"] {
+  --color-night-950: #0b0c22;
+  --color-brand-500: #6466f1;
+  --color-bloom-500: #9d8cff;
+  --color-mint-400: #2ee6b8;
+}
+[data-theme="emerald"] {
+  --color-night-950: #06100d;
+  --color-brand-500: #0c9a72;
+  --color-bloom-500: #3ad29f;
+  --color-mint-400: #7dd3fc;
+}
+[data-theme="sunset"] {
+  --color-night-950: #12080e;
+  --color-brand-500: #d9466c;
+  --color-bloom-500: #ff8a5b;
+  --color-mint-400: #ffc857;
+}
+[data-theme="graphite"] {
+  --color-night-950: #0a0c11;
+  --color-brand-500: #3b5bdb;
+  --color-bloom-500: #8aa2ff;
+  --color-mint-400: #63e6be;
 }
 
 @layer base {
@@ -65,7 +106,7 @@
   }
 
   ::selection {
-    background: rgb(118 81 215 / 0.3);
+    background: color-mix(in oklab, var(--color-brand-500) 30%, transparent);
   }
 
   :focus-visible {
@@ -96,7 +137,12 @@
 }
 
 @utility text-gradient-light {
-  background-image: linear-gradient(100deg, #e9e0ff, var(--color-bloom-300) 50%, var(--color-mint-300));
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-100),
+    var(--color-bloom-300) 50%,
+    var(--color-mint-300)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -104,13 +150,22 @@
 
 /* Soft lavender wash for cards on the light surfaces. */
 @utility card-wash {
-  background: linear-gradient(160deg, #ffffff 0%, #fbf9ff 45%, #f3effd 100%);
+  background: linear-gradient(160deg, #ffffff 0%, var(--color-brand-50) 55%, var(--color-mist) 100%);
 }
 
 @utility night-glow {
   background:
-    radial-gradient(48rem 30rem at 78% 30%, rgb(118 81 215 / 0.24), transparent 65%),
-    radial-gradient(36rem 26rem at 10% 90%, rgb(176 105 255 / 0.12), transparent 60%), var(--color-night-950);
+    radial-gradient(
+      48rem 30rem at 78% 30%,
+      color-mix(in oklab, var(--color-brand-500) 24%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      36rem 26rem at 10% 90%,
+      color-mix(in oklab, var(--color-bloom-500) 12%, transparent),
+      transparent 60%
+    ),
+    var(--color-night-950);
 }
 
 /* Entrance animation, applied once an element scrolls into view. Only hidden when

@@ -64,6 +64,17 @@ nothing waits for JavaScript. All six chapters' copy is in the DOM, inactive one
 The scene's viewBox is 560 × 520 and scales with its column (about 0.65× on phones),
 so scene text is 12–15 px; `.detail` text is hidden below 640 px.
 
+## Themes
+
+Every colour token derives from four bases (`night-950`, `brand-500`, `bloom-500`,
+`mint-400`) via `color-mix` in `globals.css`; a `[data-theme="…"]` block just sets
+those four. `@theme static` keeps all tokens emitted because the hero SVG reads them
+through inline `style` (SVG attributes don't reliably take `var()`). The floating
+`ThemePicker` (themes listed in `site.ts`) is a temporary tool for choosing a
+palette: it stores the choice in `localStorage`, accepts `?theme=ocean`, and
+`themeBoot.ts` applies it before first paint. Once a theme is chosen, make its bases
+the defaults and remove the picker.
+
 ## Gotchas
 
 - **Don't use Next's generated route types** (`LayoutProps`, `PageProps`); they

@@ -14,33 +14,40 @@ function Convergence() {
       <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full" aria-hidden="true">
         <defs>
           <radialGradient id="about-glow">
-            <stop offset="0" stopColor="#b069ff" stopOpacity="0.45" />
-            <stop offset="1" stopColor="#b069ff" stopOpacity="0" />
+            <stop style={{ stopColor: "var(--color-bloom-500)" }} offset="0" stopOpacity="0.45" />
+            <stop style={{ stopColor: "var(--color-bloom-500)" }} offset="1" stopOpacity="0" />
           </radialGradient>
         </defs>
-        <circle cx="200" cy="200" r="190" fill="url(#about-glow)" />
+        <circle style={{ fill: "url(#about-glow)" }} cx="200" cy="200" r="190" />
         <circle
+          style={{ fill: "none", stroke: "var(--color-bloom-400)" }}
           cx="200"
           cy="200"
           r={radius}
-          fill="none"
-          stroke="#c48cff"
+
           strokeOpacity="0.25"
           strokeDasharray="3 7"
         />
         {nodes.map((node) => (
           <line
+            style={{ stroke: "var(--color-mint-400)" }}
             key={node.label}
             x1="200"
             y1="200"
             x2={node.x}
             y2={node.y}
-            stroke="#45dcbc"
+
             strokeOpacity="0.45"
             strokeWidth="1.2"
           />
         ))}
-        <circle cx="200" cy="200" r="46" fill="#191427" stroke="#c48cff" strokeOpacity="0.5" />
+        <circle
+          style={{ fill: "var(--color-night-800)", stroke: "var(--color-bloom-400)" }}
+          cx="200"
+          cy="200"
+          r="46"
+          strokeOpacity="0.5"
+        />
       </svg>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <Logo className="h-12 w-12" />

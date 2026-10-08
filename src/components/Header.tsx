@@ -16,7 +16,7 @@ export function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="bg-night-950/85 fixed inset-x-0 top-0 z-50 border-b border-white/[0.07] backdrop-blur-xl">
+    <header className="bg-night-950 fixed inset-x-0 top-0 z-50 border-b border-white/[0.07]">
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
         <a href="#top" className="flex items-center gap-2.5" aria-label={`${company.name} home`}>
           <Logo className="h-8 w-8" />

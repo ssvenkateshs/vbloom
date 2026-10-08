@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
+import { ThemePicker } from "@/components/ThemePicker";
+import { themeBootScript } from "@/components/themeBoot";
 import { company } from "@/content/site";
 import "./globals.css";
 
@@ -48,9 +50,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${manrope.variable} h-full`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
+        <script dangerouslySetInnerHTML={{ __html: jsFlag + themeBootScript }} />
       </head>
-      <body className="flex min-h-full flex-col font-sans">{children}</body>
+      <body className="flex min-h-full flex-col font-sans">
+        {children}
+        <ThemePicker />
+      </body>
     </html>
   );
 }
