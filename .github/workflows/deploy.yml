@@ -79,12 +79,18 @@ jobs:
 
       - name: Rebuild and restart the site
         if: steps.check.outputs.ready == 'true'
+        env:
+          DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
         run: |
           # First deploy to a hand-made Oracle Linux VM: run the full setup, which
           # installs vbloom-update; afterwards just update.
-          ssh -i ~/.ssh/deploy_key -o ServerAliveInterval=30 "$VM_USER@$VM_HOST" 'bash -s' <<'REMOTE'
+          ssh -i ~/.ssh/deploy_key -o ServerAliveInterval=30 "$VM_USER@$VM_HOST" "DEPLOY_SHA=$DEPLOY_SHA bash -s" <<'REMOTE'
           set -euo pipefail
           if [ -x /usr/local/bin/vbloom-update ]; then
+            # Use the update script from the commit being deployed.
+            curl -fsSL "https://raw.githubusercontent.com/ssvenkateshs/vbloom/$DEPLOY_SHA/deploy/oci/vbloom-update.sh" \
+              | sudo tee /usr/local/bin/vbloom-update > /dev/null
+            sudo chmod 755 /usr/local/bin/vbloom-update
             sudo /usr/local/bin/vbloom-update
           elif [ -f /etc/oracle-release ]; then
             curl -fsSL https://raw.githubusercontent.com/ssvenkateshs/vbloom/main/deploy/oci/setup-oracle-linux.sh | sudo bash

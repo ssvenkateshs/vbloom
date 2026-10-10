@@ -49,18 +49,12 @@ chmod 755 /srv/vbloom
 # Start from a clean clone if an earlier run left a partial checkout.
 [ -d /srv/vbloom/app/.git ] || { rm -rf /srv/vbloom/app; sudo -u vbloom git clone --branch "$BRANCH" "$REPO_URL" /srv/vbloom/app; }
 
-cat > /usr/local/bin/vbloom-update <<UPDATE
-#!/bin/bash
-# Pull the latest code, rebuild and restart. Run with sudo.
-set -euo pipefail
-cd /srv/vbloom/app
-sudo -u vbloom git fetch origin $BRANCH
-sudo -u vbloom git reset --hard origin/$BRANCH
-sudo -u vbloom env NEXT_PUBLIC_SITE_URL=https://$DOMAIN npm ci
-sudo -u vbloom env NEXT_PUBLIC_SITE_URL=https://$DOMAIN NEXT_TELEMETRY_DISABLED=1 npm run build
-systemctl restart vbloom
-UPDATE
-chmod +x /usr/local/bin/vbloom-update
+cat > /etc/vbloom.env <<ENV
+REPO_URL=$REPO_URL
+BRANCH=$BRANCH
+DOMAIN=$DOMAIN
+ENV
+install -m 755 /srv/vbloom/app/deploy/oci/vbloom-update.sh /usr/local/bin/vbloom-update
 
 cat > /etc/systemd/system/vbloom.service <<UNIT
 [Unit]
