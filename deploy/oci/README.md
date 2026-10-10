@@ -10,9 +10,9 @@ it over HTTPS with Caddy. No SSH or local tools needed.
 3. When the job finishes, the **Outputs** tab shows `site_url`. The VM needs about
    10 minutes after that to install Node and build the site.
 
-Defaults: `VM.Standard.A1.Flex` with 1 OCPU / 6 GB (Always Free allows 4 OCPU /
-24 GB in total). If A1 reports "Out of host capacity", set `shape` to
-`VM.Standard.E2.1.Micro` and apply again.
+Default shape: `VM.Standard.E2.1.Micro` (Always Free, 1 GB; the setup adds 2 GB
+of swap for the build). For more memory, set `shape` to `VM.Standard.A1.Flex`
+(1 OCPU / 6 GB by default, up to 4 OCPU / 24 GB free), capacity permitting.
 
 Without a `domain` the site is served at `https://<ip-with-dashes>.sslip.io`. With
 one, add the A record shown in the `dns_record` output; Caddy fetches the

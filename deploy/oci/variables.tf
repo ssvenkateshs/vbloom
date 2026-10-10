@@ -4,8 +4,8 @@ variable "region" {}
 variable "compartment_ocid" {}
 
 variable "shape" {
-  description = "Always Free shapes: VM.Standard.A1.Flex (Arm) or VM.Standard.E2.1.Micro (AMD)."
-  default     = "VM.Standard.A1.Flex"
+  description = "Always Free shapes: VM.Standard.E2.1.Micro (AMD, 1 GB) or VM.Standard.A1.Flex (Arm, more memory but often out of capacity)."
+  default     = "VM.Standard.E2.1.Micro"
 }
 
 variable "ocpus" {
