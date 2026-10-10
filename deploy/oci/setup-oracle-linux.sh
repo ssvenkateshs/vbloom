@@ -17,10 +17,12 @@ if systemctl is-active --quiet firewalld; then
 fi
 
 # The 1 GB Micro shape needs swap to build Next.js.
-if [ ! -f /swapfile ]; then
+# Rebuilt if an earlier run was interrupted part-way through.
+if ! swapon --show=NAME --noheadings | grep -qx /swapfile; then
+  rm -f /swapfile
   dd if=/dev/zero of=/swapfile bs=1M count=2048 status=none
   chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
-  echo '/swapfile none swap sw 0 0' >> /etc/fstab
+  grep -q '^/swapfile ' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
 fi
 
 dnf install -y git curl tar
@@ -44,7 +46,8 @@ fi
 
 id vbloom >/dev/null 2>&1 || useradd --system --create-home --home-dir /srv/vbloom vbloom
 chmod 755 /srv/vbloom
-[ -d /srv/vbloom/app ] || sudo -u vbloom git clone --branch "$BRANCH" "$REPO_URL" /srv/vbloom/app
+# Start from a clean clone if an earlier run left a partial checkout.
+[ -d /srv/vbloom/app/.git ] || { rm -rf /srv/vbloom/app; sudo -u vbloom git clone --branch "$BRANCH" "$REPO_URL" /srv/vbloom/app; }
 
 cat > /usr/local/bin/vbloom-update <<UPDATE
 #!/bin/bash
