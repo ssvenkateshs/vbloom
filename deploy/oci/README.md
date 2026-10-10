@@ -25,7 +25,8 @@ The setup log is `/var/log/vbloom-setup.log`.
 
 `.github/workflows/deploy.yml` runs after CI passes on `main`: it SSHes to the VM
 and runs `sudo vbloom-update`, then checks the site answers. Add these repository
-secrets (Settings → Secrets and variables → Actions):
+settings (Settings → Secrets and variables → Actions). `VM_HOST`, `VM_USER` and
+`VM_SITE_URL` may be variables or secrets; `VM_SSH_KEY` must be a secret:
 
 | Secret | Value |
 | --- | --- |
