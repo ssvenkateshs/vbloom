@@ -70,8 +70,19 @@ jobs:
       - name: Rebuild and restart the site
         if: steps.check.outputs.ready == 'true'
         run: |
-          ssh -i ~/.ssh/deploy_key -o ServerAliveInterval=30 "$VM_USER@$VM_HOST" \
-            'sudo /usr/local/bin/vbloom-update'
+          # First deploy to a hand-made Oracle Linux VM: run the full setup, which
+          # installs vbloom-update; afterwards just update.
+          ssh -i ~/.ssh/deploy_key -o ServerAliveInterval=30 "$VM_USER@$VM_HOST" 'bash -s' <<'REMOTE'
+          set -euo pipefail
+          if [ -x /usr/local/bin/vbloom-update ]; then
+            sudo /usr/local/bin/vbloom-update
+          elif [ -f /etc/oracle-release ]; then
+            curl -fsSL https://raw.githubusercontent.com/ssvenkateshs/vbloom/main/deploy/oci/setup-oracle-linux.sh | sudo bash
+          else
+            echo "vbloom-update is missing and this is not Oracle Linux; run the stack's setup first." >&2
+            exit 1
+          fi
+          REMOTE
 
       - name: Check the site responds
         if: steps.check.outputs.ready == 'true'
