@@ -1,5 +1,3 @@
-import { useId } from "react";
-
 type IconProps = { className?: string };
 
 /**
@@ -161,31 +159,37 @@ export function PlayPause({ playing, className = "h-4 w-4" }: IconProps & { play
   );
 }
 
-/** The VBloom mark: four brand-coloured petals around a mint centre. */
+/**
+ * The VBloom mark: two palms whose trunks form a V; the right trunk doubles as the
+ * stem of a B, with mint coconuts in its crown.
+ */
 export function Logo({ className = "h-8 w-8" }: IconProps) {
-  const id = useId();
+  const left = { stroke: "var(--color-bloom-500)" };
+  const right = { stroke: "var(--color-brand-500)" };
   return (
-    <svg className={className} viewBox="0 0 32 32" aria-hidden="true">
-      <defs>
-        <linearGradient id={`${id}-p`} x1="0" y1="0" x2="1" y2="1">
-          <stop style={{ stopColor: "var(--color-bloom-500)" }} offset="0" />
-          <stop style={{ stopColor: "var(--color-brand-600)" }} offset="1" />
-        </linearGradient>
-      </defs>
-      {[0, 90, 180, 270].map((angle) => (
-        <ellipse
-          style={{ fill: `url(#${id}-p)` }}
-          key={angle}
-          cx="16"
-          cy="9.4"
-          rx="5"
-          ry="7.4"
-
-          opacity="0.82"
-          transform={`rotate(${angle + 45} 16 16)`}
-        />
-      ))}
-      <circle style={{ fill: "var(--color-mint-400)" }} cx="16" cy="16" r="3.3" />
+    <svg
+      className={className}
+      viewBox="0 0 64 64"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path style={left} strokeWidth="4.5" d="M24 60C21 46 17 32 12 20" />
+      <g style={left} strokeWidth="3.5">
+        <path d="M12 20C8 14 3 14 1 18" />
+        <path d="M12 20C11 12 7 8 2 7" />
+        <path d="M12 20C15 12 20 10 25 12" />
+      </g>
+      <path style={right} strokeWidth="4.5" d="M28 60C33 44 38 28 42 14" />
+      <path style={right} strokeWidth="4.5" d="M39 24C52 24 53 39 34.5 40C56 40 55 60 28 60" />
+      <g style={right} strokeWidth="3.5">
+        <path d="M42 14C38 8 33 7 29 9" />
+        <path d="M42 14C43 7 47 3 52 3" />
+        <path d="M42 14C48 9 55 10 59 14" />
+      </g>
+      <circle style={{ fill: "var(--color-mint-400)" }} cx="40" cy="18.5" r="2.6" />
+      <circle style={{ fill: "var(--color-mint-400)" }} cx="44.8" cy="18" r="2.6" />
     </svg>
   );
 }
