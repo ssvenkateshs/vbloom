@@ -1,0 +1,71 @@
+name: Deploy to OCI VM
+
+# Runs after CI passes on main (or by hand), then rebuilds the site on the VM.
+# Needs repository secrets: VM_HOST, VM_USER, VM_SSH_KEY (and optionally
+# VM_KNOWN_HOSTS, VM_SITE_URL). Without them the job is skipped rather than failing.
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-oci
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      VM_HOST: ${{ secrets.VM_HOST }}
+      VM_USER: ${{ secrets.VM_USER }}
+    steps:
+      - name: Check deploy secrets
+        id: check
+        run: |
+          if [ -z "$VM_HOST" ] || [ -z "$VM_USER" ]; then
+            echo "VM_HOST / VM_USER secrets are not set; skipping deploy."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up SSH
+        if: steps.check.outputs.ready == 'true'
+        env:
+          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+          VM_KNOWN_HOSTS: ${{ secrets.VM_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$VM_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          if [ -n "$VM_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$VM_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -H "$VM_HOST" > ~/.ssh/known_hosts
+          fi
+
+      - name: Rebuild and restart the site
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          ssh -i ~/.ssh/deploy_key -o ServerAliveInterval=30 "$VM_USER@$VM_HOST" \
+            'sudo /usr/local/bin/vbloom-update'
+
+      - name: Check the site responds
+        if: steps.check.outputs.ready == 'true'
+        env:
+          VM_SITE_URL: ${{ secrets.VM_SITE_URL }}
+        run: |
+          url="${VM_SITE_URL:-https://${VM_HOST//./-}.sslip.io}"
+          for i in $(seq 1 12); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$url" || true)
+            echo "$url -> $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "Site did not return 200 after the deploy." && exit 1
