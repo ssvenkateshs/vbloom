@@ -20,7 +20,8 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # The first deploy to a 1 GB Micro VM installs Node and builds the site: slow.
+    timeout-minutes: 60
     env:
       # Host and user may be repository variables or secrets; the key must be a secret.
       VM_HOST: ${{ vars.VM_HOST || secrets.VM_HOST }}
@@ -97,3 +98,25 @@ jobs:
             sleep 10
           done
           echo "Site did not return 200 after the deploy." && exit 1
+
+      - uses: actions/checkout@v5
+        if: steps.check.outputs.ready == 'true'
+
+      - name: Open the site in a browser
+        if: steps.check.outputs.ready == 'true'
+        env:
+          VM_SITE_URL: ${{ vars.VM_SITE_URL || secrets.VM_SITE_URL }}
+        run: |
+          url="${VM_SITE_URL:-https://${VM_HOST//./-}.sslip.io}"
+          mkdir -p site-check
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+          node deploy/check/site-check.mjs "$url" site-check
+
+      - name: Upload screenshots
+        if: always() && steps.check.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-screenshots
+          path: site-check/
+          if-no-files-found: ignore
