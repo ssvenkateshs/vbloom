@@ -65,7 +65,16 @@ jobs:
           if [ -n "$VM_KNOWN_HOSTS" ]; then
             printf '%s\n' "$VM_KNOWN_HOSTS" > ~/.ssh/known_hosts
           else
-            ssh-keyscan -H "$VM_HOST" > ~/.ssh/known_hosts
+            # The VM may still be booting (e.g. right after a reboot): wait up to 5 minutes.
+            for attempt in $(seq 1 30); do
+              ssh-keyscan -T 10 -H "$VM_HOST" > ~/.ssh/known_hosts 2>/dev/null && [ -s ~/.ssh/known_hosts ] && break
+              echo "SSH on $VM_HOST not answering yet (attempt $attempt/30); retrying in 10s"
+              sleep 10
+            done
+            if [ ! -s ~/.ssh/known_hosts ]; then
+              echo "::error::Could not reach SSH on $VM_HOST. Check the VM is running and port 22 is open."
+              exit 1
+            fi
           fi
 
       - name: Rebuild and restart the site
