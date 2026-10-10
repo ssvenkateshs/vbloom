@@ -13,13 +13,22 @@ jobs:
       contents: read
       pull-requests: write
       id-token: write
+    env:
+      # Skip quietly (no failure email) until the ANTHROPIC_API_KEY secret is added.
+      HAS_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
     steps:
+      - name: Note when the API key is missing
+        if: env.HAS_KEY != 'true'
+        run: echo "::notice::Skipped - add the ANTHROPIC_API_KEY repository secret to enable Claude."
+
       - name: Check out the repository
+        if: env.HAS_KEY == 'true'
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
       - name: Review the pull request
+        if: env.HAS_KEY == 'true'
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
