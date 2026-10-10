@@ -4,7 +4,7 @@
  */
 
 export const company = {
-  name: "VBloom",
+  name: "VBloom Tech",
   legalName: "VBloom Technologies",
   tagline: "Where AI, Technology & Innovation Bloom",
   description:
