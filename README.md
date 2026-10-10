@@ -129,6 +129,14 @@ Then just comment `@claude please add a careers section` on an issue.
 
 ---
 
+## Live site on Oracle Cloud
+
+The site runs on an OCI Always Free VM (setup in [`deploy/oci/`](deploy/oci/README.md)).
+Every merge to `main` that passes CI is deployed automatically by
+`.github/workflows/deploy.yml`; it can also be run by hand from the Actions tab.
+
+---
+
 ## Going live
 
 The Codespaces preview is for review. For the public site, pick a host:
