@@ -38,3 +38,10 @@ settings (Settings → Secrets and variables → Actions). `VM_HOST`, `VM_USER` 
 
 Use a dedicated deploy key rather than your personal one. The job is skipped while
 `VM_HOST`/`VM_USER` are unset, and can be run by hand from the Actions tab.
+
+If the deploy reports that `VM_SSH_KEY` is not a valid private key, store the key
+base64-encoded instead; on Windows PowerShell this copies it to the clipboard:
+
+```powershell
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\path\to\key")) | Set-Clipboard
+```
